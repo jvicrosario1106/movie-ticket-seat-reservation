@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 const seatSchema = Schema(
   {
+    name: {
+      type: String,
+    },
     theater: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

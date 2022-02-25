@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({
+    return res.status(404).json({
       message: "Invalid ID",
     });
   }
@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400).json({
+    res.status(404).json({
       message: "Invalid ID",
     });
   }
@@ -75,7 +75,7 @@ router.patch("/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400).json({
+    res.status(404).json({
       message: "Invalid ID",
     });
   }
