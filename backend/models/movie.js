@@ -25,6 +25,9 @@ const movieSchema = Schema(
     image: {
       type: String,
     },
+    status: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

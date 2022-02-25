@@ -26,3 +26,4 @@ mongoose
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/movies", require("./routes/movie"));
