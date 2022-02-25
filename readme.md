@@ -2,9 +2,15 @@
 
 ### Used Technology
 
-[x] Node.js
-[x] Express
-[x] vite
-[x] React.js
-[x] Redux / Redux Toolkit
-[x] MongoDB
+- [x] Node.js
+- [x] Express
+- [x] vite
+- [x] React.js
+- [x] Redux / Redux Toolkit
+- [x] MongoDB
+
+### Other packages
+
+- [x] bcrypt
+- [x] mongoose
+- [x] jsonwebtoken
