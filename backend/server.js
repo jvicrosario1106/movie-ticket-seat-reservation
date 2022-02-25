@@ -13,15 +13,13 @@ app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
-app.listen(PORT, () => {
-  console.log("Listening to port " + PORT);
-});
-
-app.get("/", (req, res) => {
-  res.cookie("jwt_token", "asdasd", {
-    httpOnly: true,
+mongoose
+  .connect(process.env.MONGODB_HOST)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log("Connected to Database and localhost");
+    });
+  })
+  .catch((err) => {
+    console.log("Error:", err);
   });
-  res.json({
-    message: "hello",
-  });
-});
