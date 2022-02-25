@@ -23,3 +23,6 @@ mongoose
   .catch((err) => {
     console.log("Error:", err);
   });
+
+// Routes
+app.use("/api/auth", require("./routes/auth"));
