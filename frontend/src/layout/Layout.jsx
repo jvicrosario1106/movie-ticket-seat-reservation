@@ -1,17 +1,18 @@
 import React from "react";
 import {AppBar, Drawer, Toolbar, Typography,Box, List, ListItem,ListItemIcon,ListItemText, Divider} from "@mui/material"
 import { useState } from "react";
-import {FcBarChart,FcSettings,FcCalendar,FcClapperboard,FcUnlock} from "react-icons/fc"
+import {FcBarChart,FcSettings,FcCalendar,FcClapperboard,FcUnlock,FcConferenceCall} from "react-icons/fc"
+import {useNavigate} from "react-router-dom"
 
 const Layout = ({ children }) => {
-
   const [drawerOpen, setDrawerOpen] = useState(true)
   const drawerWidth = 240;
+  const navigate = useNavigate()
 
   const lists = [
     {
       name:"Dashboard",
-      path:"/dashbord",
+      path:"/dashboard",
       icon:<FcBarChart size={30}/>
     },
     {
@@ -28,6 +29,11 @@ const Layout = ({ children }) => {
       name:"Theater Settings",
       path:"/theaters",
       icon:<FcSettings size={30}/>
+    },
+    {
+      name:"Users",
+      path:"/users",
+      icon:<FcConferenceCall size={30}/>
     },
     {
       name:"Logout",
@@ -51,7 +57,7 @@ const Layout = ({ children }) => {
         <Divider/>
         <List>
           {lists.map(list =>(
-            <ListItem button key={list.path} onClick={()=>console.log(list.name)}>
+            <ListItem button key={list.name} onClick={()=> navigate(list.path)}>
               <ListItemIcon>{list.icon}</ListItemIcon>
               <ListItemText primary={list.name}/>
             </ListItem>
@@ -61,7 +67,7 @@ const Layout = ({ children }) => {
       </Box>
 
 
-      <Box component={"main"} sx={{ flexGrow:1,sm:{width: `calc(100% - ${drawerWidth}px)`}}}><Toolbar/>{children}</Box>
+      <Box component={"main"} sx={{ flexGrow:1, p:3, sm:{width: `calc(100% - ${drawerWidth}px)`}}}><Toolbar/>{children}</Box>
 
     </div>
   );
