@@ -24,7 +24,6 @@ function App() {
           <Route path='/users' element={<User item={"movies"}/>} />
         </Routes>
      </Layout>
-     
      </BrowserRouter> : 
      
      <BrowserRouter>
