@@ -1,33 +1,13 @@
 import { useState,useEffect } from 'react'
-import logo from './logo.svg'
-import './App.css'
-import {Button, Typography,Container, TextField} from "@mui/material"
-import axios from "axios"
-
+import Layout from "./layout/Layout"
 function App() {
-  const [count, setCount] = useState(0)
-
-  const getTheaters = () => {
-
-    axios.get("http://localhost:8080/api/theaters").then((res)=>console.log(res.statusText)).catch(err=>console.log(err))
-
-  }
-
-  useEffect(() => {
-    
-    getTheaters()
-
-  }, []);
-
+ 
   return (
     <div>
-      <Container>
-        <TextField size="small" placeholder="Enter your company" label="Company name"/>
-        <Typography>Hello</Typography>
-        <Button variant="contained" size="small" onClick={()=>{setCount(count+1)}}>Submit</Button>
-        <Typography>{count}</Typography>
-        <Button variant="contained" size="small" onClick={()=>{setCount(0)}}>Clear</Button>
-      </Container>
+     <Layout>
+       <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea numquam accusamus ut, nobis nemo quidem amet nulla dicta cum velit odio repudiandae modi, eveniet voluptates officiis earum vel tenetur! Nam.
+       Sint nemo nostrum itaque asperiores natus? Perferendis provident tempore enim, voluptates dolorem at, sint qui porro ducimus totam laborum ex ipsum officiis non sit esse recusandae incidunt labore. Facilis, voluptatem.</h1>
+     </Layout>
     </div>
   )
 }
