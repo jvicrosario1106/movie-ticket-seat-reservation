@@ -25,6 +25,9 @@ const movieSchema = Schema(
     image: {
       type: String,
     },
+    url: {
+      type: String,
+    },
     status: {
       type: String,
     },

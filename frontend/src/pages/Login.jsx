@@ -1,17 +1,19 @@
-import React from 'react'
-import {useNavigate} from "react-router-dom"
+import React from "react";
+import { loginUser } from "../slice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const Login = ({setLogin}) => {
-    const navigate = useNavigate()
-    const loginSuccess = () =>{
-        setLogin(true)
-        navigate("/dashboard")
-    }
+const Login = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.authReducer);
+  const loginSuccess = () => {
+    dispatch(loginUser({ email: "jv@gmail.com", password: "123" }));
+  };
   return (
-    <div>Login
-    <button onClick={loginSuccess}>Login</button>
+    <div>
+      Login - {user}
+      <button onClick={loginSuccess}>Login</button>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

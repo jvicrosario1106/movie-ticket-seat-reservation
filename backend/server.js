@@ -6,12 +6,22 @@ const bodyparser = require("body-parser");
 
 const app = express();
 const PORT = 8080;
+const whitelist = ["http://localhost:3000"];
 require("dotenv").config();
 
-app.use(cors());
 app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (whitelist.includes(origin)) return callback(null, true);
+
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 
 mongoose
   .connect(process.env.MONGODB_HOST)
