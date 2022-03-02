@@ -25,7 +25,6 @@ import { useSelector } from "react-redux";
 
 const Layout = ({ children }) => {
   const { isSuccess } = useSelector((state) => state.authReducer);
-  console.log(isSuccess);
   const drawerWidth = 240;
   const navigate = useNavigate();
 

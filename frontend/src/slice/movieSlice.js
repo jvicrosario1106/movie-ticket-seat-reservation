@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../api/api";
 
-const getMovies = createAsyncThunk(
+export const getMovies = createAsyncThunk(
   "movies/getMovies",
   async (movie, thunkAPI) => {
     try {
@@ -14,11 +14,17 @@ const getMovies = createAsyncThunk(
   }
 );
 
-const postMovies = createAsyncThunk(
+export const postMovies = createAsyncThunk(
   "movies/postMovies",
   async (movie, thunkAPI) => {
     try {
-    } catch (err) {}
+      const response = await API_URL.post("/api/movies", movie);
+      return response.data;
+    } catch (err) {
+      const { message } = err.response.data;
+
+      return thunkAPI.rejectWithValue(message);
+    }
   }
 );
 
@@ -45,6 +51,19 @@ const movieReducer = createSlice({
       })
       .addCase(getMovies.rejected, (state, action) => {
         state.isFailed = true;
+        state.movies = action.payload;
+      })
+      .addCase(postMovies.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(postMovies.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.movies.unshift(action.payload);
+      })
+      .addCase(postMovies.rejected, (state, action) => {
+        state.isFailed = true;
+        state.isSuccess = false;
         state.movies = action.payload;
       });
   },

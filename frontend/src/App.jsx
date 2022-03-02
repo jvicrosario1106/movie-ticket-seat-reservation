@@ -14,6 +14,7 @@ function App() {
   const { isSuccess, user, isFailed } = useSelector(
     (state) => state.authReducer
   );
+  console.log(import.meta.env.NAME);
 
   return (
     <div>

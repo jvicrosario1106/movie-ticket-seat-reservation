@@ -9,19 +9,25 @@ const PORT = 8080;
 const whitelist = ["http://localhost:3000"];
 require("dotenv").config();
 
-app.use(cookieParser());
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(bodyparser.json());
 app.use(
   cors({
     origin: (origin, callback) => {
       if (whitelist.includes(origin)) return callback(null, true);
-
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
 );
+app.use(cookieParser());
+app.use(
+  bodyparser.urlencoded({
+    extended: true,
+    limit: "100mb",
+  })
+);
+app.use(bodyparser.json({ limit: "100mb" }));
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
 mongoose
   .connect(process.env.MONGODB_HOST)

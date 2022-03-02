@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddMovie from "../../components/admin/AddMovie";
+import { useDispatch, useSelector } from "react-redux";
+import { postMovies, getMovies } from "../../slice/movieSlice";
+import { Grid } from "@mui/material";
 
 const Movies = (props) => {
+  const dispatch = useDispatch();
+  const { movies } = useSelector((state) => state.movieReducer);
+  console.log(movies);
   const [movie, setMovie] = useState({
     title: "",
     hours: "",
@@ -19,8 +25,23 @@ const Movies = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(movie);
+    dispatch(postMovies(movie));
+
+    setMovie({
+      title: "",
+      hours: "",
+      minutes: "",
+      description: "",
+      start: "",
+      end: "",
+      image: "",
+      url: "",
+    });
   };
+
+  useEffect(() => {
+    dispatch(getMovies());
+  }, [dispatch]);
 
   return (
     <div>
@@ -30,6 +51,17 @@ const Movies = (props) => {
         movie={movie}
         onSubmit={onSubmit}
       />
+      {movies ? (
+        <Grid container sx={{ background: "red", mt: 5 }} spacing={2}>
+          {movies.map((movie) => (
+            <Grid item md={3}>
+              <img src={movie.image} width="100%" />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <p>Add Movie</p>
+      )}
     </div>
   );
 };
