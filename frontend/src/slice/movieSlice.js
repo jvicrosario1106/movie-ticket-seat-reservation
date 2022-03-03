@@ -28,6 +28,19 @@ export const postMovies = createAsyncThunk(
   }
 );
 
+export const getMovie = createAsyncThunk(
+  "movies/getMovie",
+  async (movieId, thunkAPI) => {
+    try {
+      const response = await API_URL.get(`/api/movies/${movieId}`);
+      return response.data;
+    } catch (err) {
+      const { message } = err.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   movies: [],
   isSuccess: null,
@@ -65,6 +78,19 @@ const movieReducer = createSlice({
         state.isFailed = true;
         state.isSuccess = false;
         state.movies = action.payload;
+      })
+      .addCase(getMovie.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getMovie.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.movies = action.payload;
+      })
+      .addCase(getMovie.rejected, (state, action) => {
+        state.isFailed = true;
+        state.isSuccess = false;
+        state.isLoading = false;
       });
   },
 });

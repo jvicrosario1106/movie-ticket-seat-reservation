@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import AddMovie from "../../components/admin/AddMovie";
 import { useDispatch, useSelector } from "react-redux";
 import { postMovies, getMovies } from "../../slice/movieSlice";
-import { Grid } from "@mui/material";
+import { Grid, CircularProgress, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Movies = (props) => {
   const dispatch = useDispatch();
-  const { movies } = useSelector((state) => state.movieReducer);
-  console.log(movies);
+  const navigate = useNavigate();
+  const { movies, isLoading, isSuccess, isFailed } = useSelector(
+    (state) => state.movieReducer
+  );
+
   const [movie, setMovie] = useState({
     title: "",
     hours: "",
@@ -43,6 +47,10 @@ const Movies = (props) => {
     dispatch(getMovies());
   }, [dispatch]);
 
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
   return (
     <div>
       <AddMovie
@@ -51,16 +59,30 @@ const Movies = (props) => {
         movie={movie}
         onSubmit={onSubmit}
       />
-      {movies ? (
-        <Grid container sx={{ background: "red", mt: 5 }} spacing={2}>
+      {movies.length > 0 ? (
+        <Grid container sx={{ mt: 5 }} spacing={1}>
           {movies.map((movie) => (
-            <Grid item md={3}>
-              <img src={movie.image} width="100%" />
+            <Grid
+              item
+              lg={3}
+              key={movie._id}
+              sx={{
+                "&:hover": {
+                  filter: "grayscale(100%)",
+                  cursor: "pointer",
+                },
+              }}
+            >
+              <img
+                src={movie.image}
+                onClick={() => navigate(`/movies/${movie._id}`)}
+                width="100%"
+              />
             </Grid>
           ))}
         </Grid>
       ) : (
-        <p>Add Movie</p>
+        <Typography>Add Movie</Typography>
       )}
     </div>
   );
