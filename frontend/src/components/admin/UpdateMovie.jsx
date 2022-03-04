@@ -20,7 +20,13 @@ const style = {
   p: 4,
 };
 
-const UpdateMovie = ({ movie, movieOnChange, setMovieUpdate, setMovie }) => {
+const UpdateMovie = ({
+  movie,
+  movieOnChange,
+  setMovieUpdate,
+  setMovie,
+  updateMovieSubmit,
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -50,7 +56,7 @@ const UpdateMovie = ({ movie, movieOnChange, setMovieUpdate, setMovie }) => {
             <Typography id="transition-modal-title" variant="h6" component="h2">
               Update movie
             </Typography>
-            <form onSubmit={(e) => onSubmit(e)}>
+            <form onSubmit={(e) => updateMovieSubmit(e)}>
               <TextField
                 value={movie.title}
                 fullWidth

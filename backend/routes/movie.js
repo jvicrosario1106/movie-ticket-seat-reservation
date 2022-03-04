@@ -5,7 +5,7 @@ const Movies = require("../models/movie");
 
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movies.find();
+    const movies = await Movies.find().sort({ createdAt: -1 });
     res.status(200).json(movies);
   } catch (error) {
     res.status(400).json({
@@ -80,13 +80,12 @@ router.patch("/:id", async (req, res) => {
     });
   }
 
-  const movie = await Movies.findById(id);
-
-  if (movie) {
+  try {
+    const movie = await Movies.findById(id);
     Object.assign(movie, req.body);
     movie.save();
     res.status(200).json(movie);
-  } else {
+  } catch (err) {
     res.status(400).json({
       message: "Unable to Updated this movie",
     });

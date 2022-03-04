@@ -41,6 +41,32 @@ export const getMovie = createAsyncThunk(
   }
 );
 
+export const updateMovie = createAsyncThunk(
+  "movies/updateMovie",
+  async (movie, thunkAPI) => {
+    try {
+      const response = await API_URL.patch(`/api/movies/${movie._id}`, movie);
+      return response.data;
+    } catch (err) {
+      const { message } = err.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const deleteMovie = createAsyncThunk(
+  "movies/deleteMovie",
+  async (movieId, thunkAPI) => {
+    try {
+      await API_URL.delete(`api/movies/${movieId}`);
+      return movieId;
+    } catch (err) {
+      const { message } = err.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   movies: [],
   isSuccess: null,
@@ -51,7 +77,7 @@ const initialState = {
 const movieReducer = createSlice({
   name: "movies",
   initialState,
-  reducers: {},
+
   extraReducers: (builder) => {
     builder
       .addCase(getMovies.pending, (state, action) => {
@@ -91,10 +117,35 @@ const movieReducer = createSlice({
         state.isFailed = true;
         state.isSuccess = false;
         state.isLoading = false;
+      })
+      .addCase(updateMovie.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(updateMovie.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.movies = action.payload;
+      })
+      .addCase(updateMovie.rejected, (state, action) => {
+        state.isFailed = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+      })
+      .addCase(deleteMovie.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteMovie.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(deleteMovie.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isFailed = true;
       });
   },
 });
 
-export const {} = movieReducer.actions;
+export const { remove } = movieReducer.actions;
 
 export default movieReducer.reducer;

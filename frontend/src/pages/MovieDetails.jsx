@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMovie } from "../slice/movieSlice";
+import { getMovie, updateMovie, deleteMovie } from "../slice/movieSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Rating,
   CircularProgress,
@@ -16,7 +17,10 @@ import UpdateMovie from "../components/admin/UpdateMovie";
 const MovieDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { movies, isLoading } = useSelector((state) => state.movieReducer);
+  const navigate = useNavigate();
+  const { movies, isLoading, isSuccess } = useSelector(
+    (state) => state.movieReducer
+  );
   const [rating, setRating] = useState(0);
   const [ratingResponse, setRatingResponse] = useState(false);
   const [movie, setMovie] = useState({});
@@ -30,8 +34,19 @@ const MovieDetails = () => {
     setMovie(movies);
   };
 
-  const deleteMovie = () => {
-    window.confirm("Are you sure?");
+  //Delete Movie
+  const deleteMovieSubmit = () => {
+    const confirm = window.confirm("Are you sure you want to delete?");
+    if (confirm) {
+      dispatch(deleteMovie(id));
+      navigate("/movies");
+    }
+  };
+
+  //Update Movie
+  const updateMovieSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateMovie(movie));
   };
 
   //Changing Ratings
@@ -63,8 +78,9 @@ const MovieDetails = () => {
           movieOnChange={movieOnChange}
           setMovieUpdate={setMovieUpdate}
           setMovie={setMovie}
+          updateMovieSubmit={updateMovieSubmit}
         />
-        <Button variant="contained" onClick={deleteMovie} sx={{ ml: 1 }}>
+        <Button variant="contained" onClick={deleteMovieSubmit} sx={{ ml: 1 }}>
           Delete
         </Button>
       </Box>
@@ -76,7 +92,7 @@ const MovieDetails = () => {
             light={true}
             controls={true}
             width={600}
-            url="https://www.youtube.com/watch?v=JfVOs4VSpmA"
+            url={`${movies.url}`}
           />
         </Grid>
         <Grid item sm={12} md={10} lg={6}>

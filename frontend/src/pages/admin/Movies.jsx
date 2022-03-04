@@ -2,8 +2,15 @@ import React, { useState, useEffect } from "react";
 import AddMovie from "../../components/admin/AddMovie";
 import { useDispatch, useSelector } from "react-redux";
 import { postMovies, getMovies } from "../../slice/movieSlice";
-import { Grid, CircularProgress, Typography } from "@mui/material";
+import {
+  Grid,
+  CircularProgress,
+  Typography,
+  FormControlLabel,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Snackbars from "../../utilities/Snackbars";
+import moment from "moment";
 
 const Movies = (props) => {
   const dispatch = useDispatch();
@@ -29,18 +36,21 @@ const Movies = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(postMovies(movie));
+    let status;
 
-    setMovie({
-      title: "",
-      hours: "",
-      minutes: "",
-      description: "",
-      start: "",
-      end: "",
-      image: "",
-      url: "",
-    });
+    if (movie.start > movie.end) {
+      status = "Ended";
+    } else if (
+      movie.start === moment(Date.now()).format("YYYY-MM-DD") &&
+      movie.end > movie.start
+    ) {
+      status = "Showing";
+    } else {
+      status = "Coming Soon";
+    }
+
+    const data = { ...movie, status };
+    dispatch(postMovies(data));
   };
 
   useEffect(() => {
@@ -53,6 +63,9 @@ const Movies = (props) => {
 
   return (
     <div>
+      {/* Snackbar message */}
+      <Snackbars />
+
       <AddMovie
         movieOnChange={movieOnChange}
         setMovie={setMovie}
