@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import ReactPlayer from "react-player/youtube";
 import UpdateMovie from "../components/admin/UpdateMovie";
+import moment from "moment";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -71,6 +72,30 @@ const MovieDetails = () => {
       <Typography sx={{ opacity: 0.6 }}>
         {movies.hours} hrs and {movies.minutes} minutes
       </Typography>
+      <Typography
+        sx={{
+          border: "1px solid rgba(0,0,0,0.3)",
+          width: "23%",
+          p: "3px",
+          mt: "10px",
+        }}
+      >
+        {movies.status} - {moment(movies.start).format("MMM DD YYYY")} to{" "}
+        {moment(movies.end).format("MMM DD YYYY")}
+      </Typography>
+
+      <Rating
+        value={rating}
+        precision={0.5}
+        size="large"
+        onChange={(event, newValue) => changeRating(newValue)}
+        sx={{ mt: 1 }}
+      />
+      {ratingResponse ? (
+        <Typography>Thank you for {rating} ratings!</Typography>
+      ) : (
+        <Typography>Rate this movie</Typography>
+      )}
 
       <Box sx={{ display: "flex", float: "right" }}>
         <UpdateMovie
@@ -85,8 +110,14 @@ const MovieDetails = () => {
         </Button>
       </Box>
 
-      <Grid container spacing={2} sx={{ mt: 3, mb: 3 }}>
-        <Grid item sm={12} md={10} lg={6}>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item>
           <ReactPlayer
             playing={true}
             light={true}
@@ -95,24 +126,22 @@ const MovieDetails = () => {
             url={`${movies.url}`}
           />
         </Grid>
-        <Grid item sm={12} md={10} lg={6}>
-          <img src={movies.image} width="100%" />
+        <Grid item>
+          <img
+            style={{ width: 260, height: 360 }}
+            src={movies.image}
+            width="100%"
+          />
         </Grid>
       </Grid>
-      <Rating
-        value={rating}
-        precision={0.5}
-        size="large"
-        onChange={(event, newValue) => changeRating(newValue)}
-      />
-      {ratingResponse ? (
-        <Typography>Thank you for {rating} ratings!</Typography>
-      ) : (
-        <Typography>Rate this movie</Typography>
-      )}
 
-      <Typography sx={{ mt: 3 }}>Description</Typography>
-      <Typography>{movies.description}</Typography>
+      <Box textAlign={"center"} mt={3}>
+        <Typography variant="h4" fontWeight={"bold"}>
+          Description
+        </Typography>
+
+        <Typography textAlign={"justify"}>{movies.description}</Typography>
+      </Box>
     </div>
   );
 };

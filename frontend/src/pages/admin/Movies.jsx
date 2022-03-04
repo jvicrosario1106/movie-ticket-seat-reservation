@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddMovie from "../../components/admin/AddMovie";
 import { useDispatch, useSelector } from "react-redux";
 import { postMovies, getMovies } from "../../slice/movieSlice";
-import {
-  Grid,
-  CircularProgress,
-  Typography,
-  FormControlLabel,
-} from "@mui/material";
+import { Grid, CircularProgress, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Snackbars from "../../utilities/Snackbars";
 import moment from "moment";
@@ -90,7 +85,9 @@ const Movies = (props) => {
                 src={movie.image}
                 onClick={() => navigate(`/movies/${movie._id}`)}
                 width="100%"
+                style={{ borderRadius: "6px" }}
               />
+              <Typography align="center">{movie.title}</Typography>
             </Grid>
           ))}
         </Grid>
