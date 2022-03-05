@@ -13,23 +13,42 @@ const User = () => {
       field: "lastName",
       headerName: "Last name",
       width: 150,
+
       renderCell: (params) => <Button>{params.row.id}</Button>,
     },
 
     {
       field: "fullName",
-      headerName: "Full name",
+      headerName: "Address",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
       width: 160,
+
       valueGetter: (params) =>
         `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+
+    {
+      field: "mobilenumber",
+      headerName: "Mobile Number",
+      description: "Tst sortable.",
+      sortable: false,
+      width: 160,
+    },
+    {
+      field: "email",
+      headerName: "Email Address",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 160,
+      flex: 1,
     },
     {
       headerName: "Actions",
       field: "actions",
       type: "actions",
       width: 300,
+
       getActions: (params) => [
         <Button onClick={() => window.confirm("Edit")}>Edit</Button>,
         <Button>Delete</Button>,
@@ -37,7 +56,14 @@ const User = () => {
     },
   ];
   const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+    {
+      id: 1,
+      lastName: "Snow",
+      firstName: "Jon",
+      age: 35,
+      mobilenumber: 123123,
+      email: "jv@gmail.com",
+    },
     { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
     { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
     { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
