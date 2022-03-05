@@ -6,12 +6,12 @@ const jwt = require("jsonwebtoken");
 const protectedRoute = require("../middleware/auth");
 
 router.post("/register", async (req, res) => {
-  const { firstname, lastname, address, mobilenumber, email, password } =
+  const { firstname, lastname, address, mobilenumber, email, password, type } =
     req.body;
 
   const existEmail = await User.findOne({ email });
   if (existEmail) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Email already Exist",
     });
   }
@@ -26,6 +26,7 @@ router.post("/register", async (req, res) => {
     mobilenumber,
     email,
     password: hashPassword,
+    type,
   });
 
   if (user) {
@@ -56,13 +57,22 @@ router.post("/login", async (req, res) => {
         httpOnly: true,
       })
       .json({
-        message: "Successfully Login",
+        email: checkEmail.email,
+        firstname: checkEmail.firstname,
+        lastname: checkEmail.lastname,
+        type: checkEmail.type,
       });
   } else {
     res.status(400).clearCookie("jwt_token").json({
       message: "Invalid Credentials",
     });
   }
+});
+
+router.get("/logout", (req, res) => {
+  res.status(200).clearCookie("jwt_token").json({
+    message: "Successfully Logout",
+  });
 });
 
 router.get("/me", protectedRoute, (req, res) => {

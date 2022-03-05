@@ -6,23 +6,23 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Snackbars = () => {
-  const [open, setOpen] = useState(true);
+const Snackbars = ({ message, open, type }) => {
+  const [opens, setOpens] = useState(open);
 
   return (
     <div>
       {/* <h1>Hello</h1> */}
       <Snackbar
-        open={open}
+        open={opens}
         autoHideDuration={6000}
         onClose={() => setOpen(false)}
       >
         <Alert
-          onClose={() => setOpen(false)}
-          severity="success"
+          onClose={() => setOpens(false)}
+          severity={type}
           sx={{ width: "100%" }}
         >
-          This is a success message!
+          {message}. {type === "error" && "Please try again"}
         </Alert>
       </Snackbar>
     </div>

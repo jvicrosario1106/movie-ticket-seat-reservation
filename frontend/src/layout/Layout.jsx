@@ -11,7 +11,6 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
-import { useState } from "react";
 import {
   FcBarChart,
   FcSettings,
@@ -21,12 +20,20 @@ import {
   FcConferenceCall,
 } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../slice/authSlice";
 
 const Layout = ({ children }) => {
   const { isSuccess } = useSelector((state) => state.authReducer);
   const drawerWidth = 240;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logoutUserSubmit = () => {
+    dispatch(logoutUser());
+    navigate("/");
+  };
 
   const lists = [
     {
@@ -54,16 +61,11 @@ const Layout = ({ children }) => {
       path: "/users",
       icon: <FcConferenceCall size={30} />,
     },
-    {
-      name: "Logout",
-      path: "/",
-      icon: <FcUnlock size={30} />,
-    },
   ];
 
   return (
     <div style={{ display: "flex" }}>
-      {isSuccess && (
+      {user && (
         <div>
           <AppBar sx={{ width: `calc(100% - ${drawerWidth}px)` }}>
             <Toolbar>
@@ -99,24 +101,40 @@ const Layout = ({ children }) => {
                     <ListItemText primary={list.name} />
                   </ListItem>
                 ))}
+                {/* Logout Nav */}
+                <ListItem button onClick={logoutUserSubmit}>
+                  <ListItemIcon>{<FcUnlock size={30} />}</ListItemIcon>
+                  <ListItemText primary={"Logout"} />
+                </ListItem>
               </List>
             </Drawer>
           </Box>
         </div>
       )}
 
-      <Box
-        component={"main"}
-        sx={{
-          flexGrow: 1,
-          background: "rgba(236, 240, 241,0.6)",
-          p: 3,
-          sm: { width: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Toolbar />
-        {children}
-      </Box>
+      {user ? (
+        <Box
+          component={"main"}
+          sx={{
+            flexGrow: 1,
+            background: "rgba(236, 240, 241,0.6)",
+            p: 3,
+            sm: { width: `calc(100% - ${drawerWidth}px)` },
+          }}
+        >
+          <Toolbar />
+          {children}
+        </Box>
+      ) : (
+        <Box
+          component={"main"}
+          sx={{
+            flexGrow: 1,
+          }}
+        >
+          {children}
+        </Box>
+      )}
     </div>
   );
 };

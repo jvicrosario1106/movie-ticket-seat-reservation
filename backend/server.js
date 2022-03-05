@@ -47,3 +47,4 @@ app.use("/api/seats", require("./routes/seat"));
 app.use("/api/theaters", require("./routes/theater"));
 app.use("/api/groups", require("./routes/group"));
 app.use("/api/books", require("./routes/book"));
+app.use("/api/users", require("./routes/users"));

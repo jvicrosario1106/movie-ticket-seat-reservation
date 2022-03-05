@@ -16,6 +16,22 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (user, thunkAPI) => {
+    try {
+      const response = await API_URL.get("/api/auth/logout", {
+        withCredentials: true,
+      });
+
+      return response.data;
+    } catch (err) {
+      const message = "Can't Logout";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   isSuccess: null,
@@ -35,13 +51,32 @@ export const authSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state, action) => {
         state.isLoading = true;
+        state.isFailed = false;
+        state.isSuccess = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.isFailed = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(logoutUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        if (localStorage.getItem("user")) {
+          localStorage.removeItem("user");
+        }
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
         state.isFailed = true;
         state.isSuccess = false;
         state.isLoading = false;

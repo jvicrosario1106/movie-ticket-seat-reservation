@@ -47,7 +47,21 @@ const MovieDetails = () => {
   //Update Movie
   const updateMovieSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateMovie(movie));
+    let status;
+
+    if (movie.start > movie.end) {
+      status = "Ended";
+    } else if (
+      movie.start === moment(Date.now()).format("YYYY-MM-DD") &&
+      movie.end > movie.start
+    ) {
+      status = "Showing";
+    } else {
+      status = "Coming Soon";
+    }
+
+    const data = { ...movie, status };
+    dispatch(updateMovie(data));
   };
 
   //Changing Ratings
