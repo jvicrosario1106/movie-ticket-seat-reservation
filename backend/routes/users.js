@@ -59,7 +59,9 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.patch("/", async (req, res) => {
-  const { _id, firstname, lastname, email, address, mobilenumber } = req.body;
+  const { _id, firstname, lastname, email, address, mobilenumber, createdAt } =
+    req.body;
+
   const getUser = await User.findById(_id);
   const existEmail = await User.find({ _id: { $nin: _id } });
 
@@ -77,6 +79,7 @@ router.patch("/", async (req, res) => {
       email,
       address,
       mobilenumber,
+      createdAt,
     };
     const updateUser = await User.findByIdAndUpdate(getUser._id, updatedUser, {
       new: true,

@@ -5,7 +5,7 @@ const Group = require("../models/group");
 
 router.get("/", async (req, res) => {
   try {
-    const groups = await Group.find();
+    const groups = await Group.find().sort({ createdAt: -1 });
     res.status(200).json(groups);
   } catch (error) {
     res.status(400).json({
