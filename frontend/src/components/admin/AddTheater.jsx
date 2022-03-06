@@ -24,7 +24,7 @@ const AddTheater = ({ theater, setTheater, submitTheater }) => {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <div style={{ width: "40%" }}>
       <Button onClick={handleOpen} variant="outlined">
         Create Theater
       </Button>

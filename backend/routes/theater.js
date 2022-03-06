@@ -6,6 +6,7 @@ const Theater = require("../models/theater");
 router.get("/", async (req, res) => {
   try {
     const theaters = await Theater.find().sort({ createdAt: -1 });
+
     res.status(200).json(theaters);
   } catch (error) {
     res.status(400).json({
