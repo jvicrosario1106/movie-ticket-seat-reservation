@@ -18,7 +18,7 @@ const style = {
   p: 4,
 };
 
-const AddGroup = ({ submitGroup, setGroup, group }) => {
+const AddGroup = ({ submitGroup, setGroup, group, isLoadingGroup }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -56,11 +56,12 @@ const AddGroup = ({ submitGroup, setGroup, group }) => {
                 onChange={(e) => setGroup({ ...group, name: e.target.value })}
               />
               <Button
+                disabled={isLoadingGroup ? true : false}
                 type="submit"
                 variant="contained"
                 style={{ float: "right" }}
               >
-                Create
+                {isLoadingGroup ? "Creating" : "Create"}
               </Button>
             </form>
           </Box>

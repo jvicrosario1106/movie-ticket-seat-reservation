@@ -19,11 +19,13 @@ import {
 import Snackbars from "../../utilities/Snackbars";
 import AddTheater from "../../components/admin/AddTheater";
 import AddGroup from "../../components/admin/AddGroup";
+import AddSeat from "../../components/admin/AddSeat";
+import UpdateSeat from "../../components/admin/UpdateSeat";
 
 const Theater = () => {
   const dispatch = useDispatch();
 
-  const { theaters, isDeleted, isCreated } = useSelector(
+  const { theaters, isDeleted, isCreated, isLoading } = useSelector(
     (state) => state.theaterReducer
   );
 
@@ -31,9 +33,17 @@ const Theater = () => {
     groups,
     isCreated: isCreatedGroup,
     isDelete: isDeleteGroup,
+    isLoading: isLoadingGroup,
   } = useSelector((state) => state.groupReducer);
 
-  const { seats } = useSelector((state) => state.seatReducer);
+  const {
+    seats,
+    isCreated: isCreatedSeats,
+    isDeleted: isDeletedSeats,
+    isUpdated: isUpdatedSeats,
+    isLoading: isLoadingSeats,
+    isFailed: isFailedSeats,
+  } = useSelector((state) => state.seatReducer);
 
   const [theater, setTheater] = useState({
     name: "",
@@ -42,6 +52,52 @@ const Theater = () => {
   const [group, setGroup] = useState({
     name: "",
   });
+
+  const [seat, setSeat] = useState({
+    name: "",
+    theater: "",
+    groups: "",
+    seats: "",
+  });
+
+  const onSubmitSeats = (e) => {
+    e.preventDefault();
+    dispatch(createSeats(seat));
+
+    setSeat({
+      name: "",
+      theater: "",
+      groups: "",
+      seats: "",
+    });
+  };
+
+  const onSubmitUpdateSeats = (e) => {
+    e.preventDefault();
+    dispatch(updateSeats(seat));
+  };
+
+  const onDeleteSeats = (id) => {
+    const confirm = window.confirm("Are you sure you want to delete?");
+    if (confirm) {
+      dispatch(deleteSeats(id));
+    }
+  };
+
+  const getSeatValue = (id) => {
+    const seatValue = seats.length > 0 && seats.find((seat) => seat._id === id);
+    setSeat({
+      _id: seatValue._id,
+      name: seatValue.name,
+      theater: seatValue.theater._id,
+      groups: seatValue.groups._id,
+      seats: seatValue.seats,
+    });
+  };
+
+  const onChangeSeats = (e) => {
+    setSeat({ ...seat, [e.target.name]: e.target.value });
+  };
 
   const submitTheater = (e) => {
     e.preventDefault();
@@ -79,8 +135,6 @@ const Theater = () => {
     dispatch(getSeats());
   }, []);
 
-  console.log(seats);
-
   const columns = [
     {
       field: "name",
@@ -101,12 +155,13 @@ const Theater = () => {
 
       getActions: (params) => [
         <Button
+          disabled={isLoading ? true : false}
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"
           onClick={() => submitDeleteTheater(params.id)}
         >
-          Delete
+          {isLoading ? "Deleting" : "Delete"}
         </Button>,
       ],
     },
@@ -132,12 +187,13 @@ const Theater = () => {
 
       getActions: (params) => [
         <Button
+          disabled={isLoadingGroup ? true : false}
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"
           onClick={() => submitDeleteGroup(params.id)}
         >
-          Delete
+          {isLoadingGroup ? "Deleting" : "Delete"}
         </Button>,
       ],
     },
@@ -158,13 +214,15 @@ const Theater = () => {
       field: "groups",
       headerName: "Group ",
       width: 150,
-      valueGetter: (params) => params.row.groups.name,
+      valueGetter: (params) =>
+        params.row.groups.name === null ? "s" : params.row.groups.name,
     },
     {
       field: "theater",
       headerName: "Theater ",
       width: 150,
-      valueGetter: (params) => params.row.theater.name,
+      valueGetter: (params) =>
+        params.row.theater.name === null ? "s" : params.row.theater.name,
     },
     {
       field: "createdAt",
@@ -177,14 +235,25 @@ const Theater = () => {
       headerName: "Actions",
       field: "actions",
       type: "actions",
-      width: 200,
+      width: 400,
 
       getActions: (params) => [
+        <UpdateSeat
+          theaters={theaters}
+          groups={groups}
+          seat={seat}
+          setSeat={setSeat}
+          onChangeSeats={onChangeSeats}
+          onSubmitSeats={onSubmitSeats}
+          getSeatValue={getSeatValue}
+          onSubmitUpdateSeats={onSubmitUpdateSeats}
+          id={params.id}
+        />,
         <Button
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"
-          onClick={() => submitDeleteGroup(params.id)}
+          onClick={() => onDeleteSeats(params.id)}
         >
           Delete
         </Button>,
@@ -244,10 +313,13 @@ const Theater = () => {
 
       {/* Seats */}
 
-      <AddTheater
-        theater={theater}
-        setTheater={setTheater}
-        submitTheater={submitTheater}
+      <AddSeat
+        theaters={theaters}
+        groups={groups}
+        seat={seat}
+        setSeat={setSeat}
+        onChangeSeats={onChangeSeats}
+        onSubmitSeats={onSubmitSeats}
       />
       <div
         style={{
@@ -298,6 +370,7 @@ const Theater = () => {
             submitGroup={submitGroup}
             setGroup={setGroup}
             group={group}
+            isLoadingGroup={isLoadingGroup}
           />
           <div
             style={{

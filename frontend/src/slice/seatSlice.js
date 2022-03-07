@@ -41,10 +41,11 @@ export const createSeats = createAsyncThunk(
 );
 
 export const updateSeats = createAsyncThunk(
-  "setas/updateSeats",
+  "seats/updateSeats",
   async (seat, thunkAPI) => {
     try {
       const response = await API_URL.patch(`/api/seats`, seat);
+      console.log(response);
       return response.data;
     } catch (err) {
       const { message } = err.response.data;

@@ -63,13 +63,36 @@ const Layout = ({ children }) => {
     },
   ];
 
+  const customerlists = [
+    {
+      name: "Coming Soon",
+      path: "/",
+      icon: <FcConferenceCall size={30} />,
+    },
+    {
+      name: "Movies",
+      path: "/movies",
+      icon: <FcClapperboard size={30} />,
+    },
+    {
+      name: "Book Now",
+      path: "/booknow",
+      icon: <FcCalendar size={30} />,
+    },
+    {
+      name: "My Books",
+      path: "/mybook",
+      icon: <FcSettings size={30} />,
+    },
+  ];
+
   return (
     <div style={{ display: "flex" }}>
       {user && (
         <div>
           <AppBar sx={{ width: `calc(100% - ${drawerWidth}px)` }}>
             <Toolbar>
-              <Typography variant="h5">Hello, Welcome!</Typography>
+              <Typography variant="h5">Hello, {user.firstname}!</Typography>
             </Toolbar>
           </AppBar>
           <Box
@@ -90,23 +113,43 @@ const Layout = ({ children }) => {
                 Cinephile
               </Typography>
               <Divider />
-              <List>
-                {lists.map((list) => (
-                  <ListItem
-                    button
-                    key={list.name}
-                    onClick={() => navigate(list.path)}
-                  >
-                    <ListItemIcon>{list.icon}</ListItemIcon>
-                    <ListItemText primary={list.name} />
+              {user.type === "admin" ? (
+                <List>
+                  {lists.map((list) => (
+                    <ListItem
+                      button
+                      key={list.name}
+                      onClick={() => navigate(list.path)}
+                    >
+                      <ListItemIcon>{list.icon}</ListItemIcon>
+                      <ListItemText primary={list.name} />
+                    </ListItem>
+                  ))}
+                  {/* Logout Nav */}
+                  <ListItem button onClick={logoutUserSubmit}>
+                    <ListItemIcon>{<FcUnlock size={30} />}</ListItemIcon>
+                    <ListItemText primary={"Logout"} />
                   </ListItem>
-                ))}
-                {/* Logout Nav */}
-                <ListItem button onClick={logoutUserSubmit}>
-                  <ListItemIcon>{<FcUnlock size={30} />}</ListItemIcon>
-                  <ListItemText primary={"Logout"} />
-                </ListItem>
-              </List>
+                </List>
+              ) : (
+                <List>
+                  {customerlists.map((customerlist) => (
+                    <ListItem
+                      button
+                      key={customerlist.name}
+                      onClick={() => navigate(customerlist.path)}
+                    >
+                      <ListItemIcon>{customerlist.icon}</ListItemIcon>
+                      <ListItemText primary={customerlist.name} />
+                    </ListItem>
+                  ))}
+                  {/* Logout Nav */}
+                  <ListItem button onClick={logoutUserSubmit}>
+                    <ListItemIcon>{<FcUnlock size={30} />}</ListItemIcon>
+                    <ListItemText primary={"Logout"} />
+                  </ListItem>
+                </List>
+              )}
             </Drawer>
           </Box>
         </div>

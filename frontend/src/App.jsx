@@ -10,6 +10,9 @@ import Notfound from "./pages/Notfound";
 import MovieDetails from "./pages/MovieDetails";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+import BookNow from "./pages/customer/BookNow";
+import MyBook from "./pages/customer/MyBook";
+import ComingSoon from "./pages/customer/ComingSoon";
 
 function App() {
   const { isSuccess } = useSelector((state) => state.authReducer);
@@ -20,16 +23,20 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route index element={users ? <Dashboard /> : <Login />} />
+            <Route path="/register" element={<Register />} />
 
+            <Route index element={users ? <Dashboard /> : <Login />} />
+            <Route path="/bookings" element={<Book />} />
+            <Route path="/theaters" element={<Theater />} />
+            <Route path="/users" element={<User />} />
             <Route path="/movies">
               <Route index={true} element={<Movies />} />
               <Route path=":id" element={<MovieDetails />} />
             </Route>
-            <Route path="/register" element={<Register />} />
-            <Route path="/bookings" element={<Book />} />
-            <Route path="/theaters" element={<Theater />} />
-            <Route path="/users" element={<User />} />
+
+            <Route path="/booknow" element={<BookNow />} />
+            <Route path="/mybook" element={<MyBook />} />
+
             <Route path="*" element={<Notfound />} />
           </Routes>
         </Layout>

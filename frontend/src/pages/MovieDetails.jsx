@@ -10,6 +10,7 @@ import {
   Typography,
   Button,
   Box,
+  Chip,
 } from "@mui/material";
 import ReactPlayer from "react-player/youtube";
 import UpdateMovie from "../components/admin/UpdateMovie";
@@ -24,6 +25,7 @@ const MovieDetails = () => {
   );
   const [rating, setRating] = useState(0);
   const [ratingResponse, setRatingResponse] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
   const [movie, setMovie] = useState({});
 
   useEffect(() => {
@@ -86,43 +88,56 @@ const MovieDetails = () => {
       <Typography sx={{ opacity: 0.6 }}>
         {movies.hours} hrs and {movies.minutes} minutes
       </Typography>
-      <Typography
-        sx={{
-          border: "1px solid rgba(0,0,0,0.3)",
-          width: "23%",
-          p: "3px",
-          mt: "10px",
-        }}
-      >
-        {movies.status} - {moment(movies.start).format("MMM DD YYYY")} to{" "}
-        {moment(movies.end).format("MMM DD YYYY")}
-      </Typography>
 
-      <Rating
-        value={rating}
-        precision={0.5}
-        size="large"
-        onChange={(event, newValue) => changeRating(newValue)}
-        sx={{ mt: 1 }}
-      />
-      {ratingResponse ? (
-        <Typography>Thank you for {rating} ratings!</Typography>
-      ) : (
-        <Typography>Rate this movie</Typography>
+      {user.type === "customer" && (
+        <div>
+          <Rating
+            value={rating}
+            precision={0.5}
+            size="large"
+            onChange={(event, newValue) => changeRating(newValue)}
+            sx={{ mt: 1 }}
+          />
+          {ratingResponse ? (
+            <Typography>Thank you for {rating} ratings!</Typography>
+          ) : (
+            <Typography>Rate this movie</Typography>
+          )}
+        </div>
       )}
 
-      <Box sx={{ display: "flex", float: "right" }}>
-        <UpdateMovie
-          movie={movie}
-          movieOnChange={movieOnChange}
-          setMovieUpdate={setMovieUpdate}
-          setMovie={setMovie}
-          updateMovieSubmit={updateMovieSubmit}
-        />
-        <Button variant="contained" onClick={deleteMovieSubmit} sx={{ ml: 1 }}>
-          Delete
-        </Button>
-      </Box>
+      <Chip
+        label={`${movies.status} - ${moment(movies.start).format(
+          "MMM DD YYYY"
+        )} to ${moment(movies.end).format("MMM DD YYYY")}`}
+        color={
+          movies.status == "Showing"
+            ? "success"
+            : movies.status == "Coming Soon"
+            ? "warning"
+            : "error"
+        }
+        sx={{ mt: 1 }}
+      />
+
+      {user.type === "admin" && (
+        <Box sx={{ display: "flex", float: "right" }}>
+          <UpdateMovie
+            movie={movie}
+            movieOnChange={movieOnChange}
+            setMovieUpdate={setMovieUpdate}
+            setMovie={setMovie}
+            updateMovieSubmit={updateMovieSubmit}
+          />
+          <Button
+            variant="contained"
+            onClick={deleteMovieSubmit}
+            sx={{ ml: 1 }}
+          >
+            Delete
+          </Button>
+        </Box>
+      )}
 
       <Grid
         container
@@ -130,6 +145,9 @@ const MovieDetails = () => {
         direction="row"
         justifyContent="center"
         alignItems="center"
+        sx={{
+          mt: 3,
+        }}
       >
         <Grid item>
           <ReactPlayer
