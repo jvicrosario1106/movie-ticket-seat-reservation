@@ -40,7 +40,8 @@ const Movies = (props) => {
     if (movie.start > movie.end) {
       status = "Ended";
     } else if (
-      movie.start === moment(Date.now()).format("YYYY-MM-DD") &&
+      moment(movie.start).format("YYYY-MM-DD") ===
+        moment(Date.now()).format("YYYY-MM-DD") &&
       movie.end > movie.start
     ) {
       status = "Showing";
@@ -65,13 +66,17 @@ const Movies = (props) => {
       {/* Snackbar message */}
       <Snackbars />
 
-      {users.type === "admin" && (
+      {users.type === "admin" ? (
         <AddMovie
           movieOnChange={movieOnChange}
           setMovie={setMovie}
           movie={movie}
           onSubmit={onSubmit}
         />
+      ) : (
+        <Typography variant="h3" fontWeight={"bold"}>
+          List of Movies
+        </Typography>
       )}
 
       {movies.length > 0 ? (

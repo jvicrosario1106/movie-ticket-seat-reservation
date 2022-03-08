@@ -75,6 +75,7 @@ const Theater = () => {
   const onSubmitUpdateSeats = (e) => {
     e.preventDefault();
     dispatch(updateSeats(seat));
+    console.log(seat);
   };
 
   const onDeleteSeats = (id) => {
@@ -248,14 +249,16 @@ const Theater = () => {
           getSeatValue={getSeatValue}
           onSubmitUpdateSeats={onSubmitUpdateSeats}
           id={params.id}
+          isLoadingSeats={isLoadingSeats}
         />,
         <Button
+          disabled={isLoadingSeats ? true : false}
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"
           onClick={() => onDeleteSeats(params.id)}
         >
-          Delete
+          {isLoadingSeats ? "Deleting" : "Delete"}
         </Button>,
       ],
     },
@@ -295,6 +298,30 @@ const Theater = () => {
         />
       )}
 
+      {isCreatedSeats && (
+        <Snackbars
+          message={"Successfully Created"}
+          type={"success"}
+          open={true}
+        />
+      )}
+
+      {isDeletedSeats && (
+        <Snackbars
+          message={"Successfully Deleted"}
+          type={"success"}
+          open={true}
+        />
+      )}
+
+      {isUpdatedSeats && (
+        <Snackbars
+          message={"Successfully Updated"}
+          type={"success"}
+          open={true}
+        />
+      )}
+
       <Typography
         sx={{
           mb: 3,
@@ -320,6 +347,7 @@ const Theater = () => {
         setSeat={setSeat}
         onChangeSeats={onChangeSeats}
         onSubmitSeats={onSubmitSeats}
+        isLoadingSeats={isLoadingSeats}
       />
       <div
         style={{

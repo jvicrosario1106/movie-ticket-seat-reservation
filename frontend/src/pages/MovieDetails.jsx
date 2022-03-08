@@ -54,7 +54,8 @@ const MovieDetails = () => {
     if (movie.start > movie.end) {
       status = "Ended";
     } else if (
-      movie.start === moment(Date.now()).format("YYYY-MM-DD") &&
+      moment(movie.start).format("YYYY-MM-DD") ===
+        moment(Date.now()).format("YYYY-MM-DD") &&
       movie.end > movie.start
     ) {
       status = "Showing";

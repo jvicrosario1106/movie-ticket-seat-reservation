@@ -29,6 +29,7 @@ const AddSeat = ({
   setSeat,
   onChangeSeats,
   onSubmitSeats,
+  isLoadingSeats,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -121,11 +122,12 @@ const AddSeat = ({
               </FormControl>
 
               <Button
+                disabled={isLoadingSeats ? true : false}
                 type="submit"
                 variant="contained"
                 style={{ float: "right", mt: 10 }}
               >
-                Create
+                {isLoadingSeats ? "Creating" : "Create"}
               </Button>
             </form>
           </Box>

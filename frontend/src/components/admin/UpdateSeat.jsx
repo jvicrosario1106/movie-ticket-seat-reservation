@@ -31,6 +31,7 @@ const UpdateSeat = ({
   getSeatValue,
   onSubmitUpdateSeats,
   id,
+  isLoadingSeats,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -134,11 +135,12 @@ const UpdateSeat = ({
               </FormControl>
 
               <Button
+                disabled={isLoadingSeats ? true : false}
                 type="submit"
                 variant="contained"
                 style={{ float: "right", mt: 10 }}
               >
-                Save
+                {isLoadingSeats ? "Saving" : "Save"}
               </Button>
             </form>
           </Box>

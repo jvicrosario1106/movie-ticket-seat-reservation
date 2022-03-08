@@ -1,119 +1,77 @@
-import React, { useEffect, useState } from "react";
-import { Paper, Typography, TextField, Grid, Box, Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { getTheaters } from "../../slice/theaterSlice";
-import { getSeats } from "../../slice/seatSlice";
-import { getMovies } from "../../slice/movieSlice";
-import { createBook } from "../../slice/bookSlice";
-
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
+import React, { useState } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import moment from "moment";
-import Snackbars from "../../utilities/Snackbars";
+import { FiEdit } from "react-icons/fi";
+import { TextField } from "@mui/material";
 
-const BookNow = () => {
-  const dispatch = useDispatch();
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
-  const { theaters } = useSelector((state) => state.theaterReducer);
-  const { seats } = useSelector((state) => state.seatReducer);
-  const { movies } = useSelector((state) => state.movieReducer);
-
-  const { isCreated, isFailed, isLoading } = useSelector(
-    (state) => state.bookReducer
-  );
-
-  const [dates, setDates] = useState([]);
-  const [movie, setMovie] = useState("");
-
-  const [bookData, setBookData] = useState({
-    theater: "",
-    seats: "",
-    quantity: "",
-    date: "",
-    time: "",
-  });
-
-  const times = [
-    "9:25 AM",
-    "11:50AM",
-    "1:45PM",
-    "3:15PM",
-    "5:35PM",
-    "7:15PM",
-    "9:25PM",
-  ];
-
-  const onChangeData = (e) => {
-    setBookData({ ...bookData, [e.target.name]: e.target.value });
+const AddTheater = ({
+  theaters,
+  seats,
+  movies,
+  times,
+  onChangeData,
+  bookData,
+  dates,
+  changeMovie,
+  movie,
+  getValue,
+  id,
+  submitUpdatedData,
+  isLoading,
+}) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+    getValue(id);
   };
-
-  const changeMovie = (e) => {
-    setMovie(e.target.value);
-    const getMovie =
-      movies.length > 0 && movies.find((movie) => movie._id === e.target.value);
-
-    const start = moment(getMovie.start);
-    const end = moment(getMovie.end);
-
-    const dateArray = new Array();
-    const diff = end.diff(start, "days");
-
-    for (var i = 0; i <= diff; i++) {
-      const date = moment(start).add(i, "days").format("YYYY-MM-DD");
-      dateArray.push(date);
-      setDates(dateArray);
-    }
-  };
-
-  const onSubmitBook = (e) => {
-    e.preventDefault();
-    const data = { ...bookData, movie };
-    dispatch(createBook(data));
-    setMovie("");
-    setBookData({
-      theater: "",
-      seats: "",
-      quantity: "",
-      date: "",
-      time: "",
-    });
-  };
-
-  useEffect(() => {
-    dispatch(getTheaters());
-    dispatch(getSeats());
-    dispatch(getMovies());
-  }, []);
+  const handleClose = () => setOpen(false);
 
   return (
-    <div>
-      {isCreated && (
-        <Snackbars
-          message={"Successfully Booked"}
-          type={"success"}
-          open={true}
-        />
-      )}
-
-      {isFailed && (
-        <Snackbars message={"Failed to Booked"} type={"error"} open={true} />
-      )}
-
-      <Typography variant="h4" fontWeight={"bold"}>
-        What are you looking up to?
-      </Typography>
-
-      <Grid container spacing={5}>
-        <Grid item lg={6}>
-          <Paper sx={{ width: "100%", p: 2, mt: 3 }}>
-            <Typography variant="h5" sx={{ opacity: 0.6 }}>
-              Book Now
+    <div style={{ width: "40%" }}>
+      <Button
+        startIcon={<FiEdit />}
+        onClick={handleOpen}
+        variant="contained"
+        color="warning"
+      >
+        Edit
+      </Button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              Update Book
             </Typography>
-            <form onSubmit={(e) => onSubmitBook(e)}>
+            <form onSubmit={(e) => submitUpdatedData(e)}>
               <FormControl size="small" required fullWidth margin="normal">
                 <InputLabel id="demo-simple-select-required-label">
                   Movies
@@ -231,34 +189,20 @@ const BookNow = () => {
                 </Select>
               </FormControl>
 
-              <Typography align="right">
-                <Button
-                  type="submit"
-                  disabled={isLoading ? true : false}
-                  variant="contained"
-                >
-                  {isLoading ? "Submitting" : "Submit"}
-                </Button>
-              </Typography>
+              <Button
+                disabled={isLoading ? true : false}
+                type="submit"
+                variant="contained"
+                style={{ float: "right" }}
+              >
+                {isLoading ? "Saving" : "Save"}
+              </Button>
             </form>
-          </Paper>
-        </Grid>
-
-        <Grid item lg={6}>
-          {/* <Paper sx={{ width: "100%" }}> */}
-          <ImageList sx={{ width: 500, height: 500 }} cols={3} rowHeight={164}>
-            {movies.length > 0 &&
-              movies.map((movie) => (
-                <ImageListItem key={movie._id}>
-                  <img src={movie.image} alt={movie.title} loading="lazy" />
-                </ImageListItem>
-              ))}
-          </ImageList>
-          {/* </Paper> */}
-        </Grid>
-      </Grid>
+          </Box>
+        </Fade>
+      </Modal>
     </div>
   );
 };
 
-export default BookNow;
+export default AddTheater;

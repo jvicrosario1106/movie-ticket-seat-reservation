@@ -116,18 +116,41 @@ const ComingSoon = () => {
           Features of Cinephile
         </Typography>
 
-        <Grid container alignItems="center" sx={{ textAlign: "center" }}>
+        <Grid
+          container
+          spacing={2}
+          alignItems="center"
+          sx={{ textAlign: "center" }}
+        >
           <Grid item lg={4}>
-            <img src={`${Advance}`} width="60%" />
-            <Typography>Tech Stack</Typography>
+            <img src={`${Advance}`} width="50%" />
+            <Typography fontWeight={"bold"}>Tech Stack</Typography>
+            <Typography mt={1}>
+              This Application used a popular Teck stack consist of Programming
+              languages, frameworks and tools to build softwares. React.js is
+              used for frontend, Node.js of Backend, MongoDB for Database and
+              Vite for running the development fast and smoothly
+            </Typography>
           </Grid>
           <Grid item lg={4}>
-            <img src={`${Cloud}`} width="60%" />
-            <Typography>Cloud Hosting</Typography>
+            <img src={`${Cloud}`} width="50%" />
+            <Typography fontWeight={"bold"}>Cloud Hosting</Typography>
+            <Typography mt={1}>
+              This Application used a popular Teck stack consist of Programming
+              languages, frameworks and tools to build softwares. React.js is
+              used for frontend, Node.js of Backend, MongoDB for Database and
+              Vite for running the development fast and smoothly
+            </Typography>
           </Grid>
           <Grid item lg={4}>
-            <img src={`${Speed}`} width="60%" />
-            <Typography>Performance</Typography>
+            <img src={`${Speed}`} width="50%" />
+            <Typography fontWeight={"bold"}>Performance</Typography>
+            <Typography mt={1}>
+              This Application used a popular Teck stack consist of Programming
+              languages, frameworks and tools to build softwares. React.js is
+              used for frontend, Node.js of Backend, MongoDB for Database and
+              Vite for running the development fast and smoothly
+            </Typography>
           </Grid>
         </Grid>
       </div>

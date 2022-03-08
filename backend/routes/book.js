@@ -101,7 +101,7 @@ router.delete("/:id", async (req, res) => {
   }
 
   try {
-    const book = Book.findByIdAndRemove(id);
+    const book = await Book.findByIdAndRemove(id);
     if (book) {
       res.status(200).json({
         message: "Successfully deleted",
@@ -118,21 +118,34 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
-  const { id } = req.params;
+router.patch("/", async (req, res) => {
+  const { _id, date, movie, quantity, seats, theater, time, user } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
     return res.status(400).json({
       message: "Invalid ID",
     });
   }
 
   try {
-    const book = Book.findById(id);
+    const updateBook = {
+      _id,
+      date,
+      movie,
+      quantity,
+      seats,
+      theater,
+      time,
+      user,
+    };
+
+    const book = await Book.findByIdAndUpdate(_id, updateBook, { new: true });
+
     if (book) {
-      Object.assign(book, req.body);
-      book.save();
-      res.status(200).json(book);
+      const getUpdateValue = await Book.findById(_id)
+        .populate("user theater seats movie")
+        .exec();
+      res.status(200).json(getUpdateValue);
     } else {
       res.status(404).json({
         message: "No book with this ID",

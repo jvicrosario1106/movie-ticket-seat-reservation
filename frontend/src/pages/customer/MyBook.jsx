@@ -3,17 +3,119 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { FiTrash2 } from "react-icons/fi";
+import { getTheaters } from "../../slice/theaterSlice";
+import { getSeats } from "../../slice/seatSlice";
+import { getMovies } from "../../slice/movieSlice";
+import UpdateBook from "../../components/admin/UpdateBook";
+import { userBook, updateBook, deleteBook } from "../../slice/bookSlice";
 import Snackbars from "../../utilities/Snackbars";
-
-import { userBook } from "../../slice/bookSlice";
 import moment from "moment";
 
 const User = () => {
   const dispatch = useDispatch();
 
-  const { books } = useSelector((state) => state.bookReducer);
+  const { books, isUpdated, isLoading, isDeleted } = useSelector(
+    (state) => state.bookReducer
+  );
+  const { theaters } = useSelector((state) => state.theaterReducer);
+  const { seats } = useSelector((state) => state.seatReducer);
+  const { movies } = useSelector((state) => state.movieReducer);
+
+  const times = [
+    "9:25 AM",
+    "11:50AM",
+    "1:45PM",
+    "3:15PM",
+    "5:35PM",
+    "7:15PM",
+    "9:25PM",
+  ];
+
+  const [dates, setDates] = useState([]);
+  const [movie, setMovie] = useState("");
+
+  const [bookData, setBookData] = useState({
+    theater: "",
+    seats: "",
+    quantity: "",
+    date: "",
+    time: "",
+    user: "",
+  });
+
+  const getValue = (id) => {
+    const getBook = books.length > 0 && books.find((book) => book._id === id);
+
+    const getMovie =
+      movies.length > 0 &&
+      movies.find((movie) => movie._id === getBook.movie._id);
+
+    const start = moment(getMovie.start);
+    const end = moment(getMovie.end);
+
+    const dateArray = new Array();
+    const diff = end.diff(start, "days");
+
+    for (var i = 0; i <= diff; i++) {
+      const date = moment(start).add(i, "days").format("YYYY-MM-DD");
+      dateArray.push(date);
+      setDates(dateArray);
+    }
+
+    setMovie(getBook.movie._id);
+    setBookData({
+      _id: id,
+      theater: getBook.theater._id,
+      seats: getBook.seats._id,
+      quantity: getBook.quantity,
+      date: moment(getBook.date).format("YYYY-MM-DD"),
+      time: getBook.time,
+      user: getBook.user._id,
+    });
+  };
+
+  const submitUpdatedData = (e) => {
+    e.preventDefault();
+
+    const data = { ...bookData, movie };
+    dispatch(updateBook(data));
+    console.log(data);
+  };
+
+  const deleteBookSubmit = (id) => {
+    const confirm = window.confirm("Are you sure you want to delete?");
+    if (confirm) {
+      dispatch(deleteBook(id));
+    }
+  };
+
+  const onChangeData = (e) => {
+    setBookData({ ...bookData, [e.target.name]: e.target.value });
+  };
+
+  const changeMovie = (e) => {
+    setMovie(e.target.value);
+    const getMovie =
+      movies.length > 0 && movies.find((movie) => movie._id === e.target.value);
+
+    const start = moment(getMovie.start);
+    const end = moment(getMovie.end);
+
+    const dateArray = new Array();
+    const diff = end.diff(start, "days");
+
+    for (var i = 0; i <= diff; i++) {
+      const date = moment(start).add(i, "days").format("YYYY-MM-DD");
+      dateArray.push(date);
+      setDates(dateArray);
+    }
+  };
+
   useEffect(() => {
     dispatch(userBook());
+    dispatch(getTheaters());
+    dispatch(getSeats());
+    dispatch(getMovies());
   }, []);
 
   const columns = [
@@ -65,13 +167,30 @@ const User = () => {
       width: 300,
 
       getActions: (params) => [
+        <UpdateBook
+          theaters={theaters}
+          seats={seats}
+          movies={movies}
+          times={times}
+          onChangeData={onChangeData}
+          bookData={bookData}
+          dates={dates}
+          changeMovie={changeMovie}
+          movie={movie}
+          getValue={getValue}
+          id={params.id}
+          submitUpdatedData={submitUpdatedData}
+          isLoading={isLoading}
+        />,
+
         <Button
+          disabled={isLoading ? true : false}
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"
-          onClick={() => deleteUserSubmit(params.id)}
+          onClick={() => deleteBookSubmit(params.id)}
         >
-          Cancel
+          {isLoading ? "Canceling" : "Cancel"}
         </Button>,
       ],
     },
@@ -79,6 +198,22 @@ const User = () => {
 
   return (
     <div>
+      {isUpdated && (
+        <Snackbars
+          message={"Successfully Updated"}
+          open={true}
+          type={"success"}
+        />
+      )}
+
+      {isDeleted && (
+        <Snackbars
+          message={"Successfully Deleted"}
+          open={true}
+          type={"success"}
+        />
+      )}
+
       <Typography
         sx={{
           mb: 3,
