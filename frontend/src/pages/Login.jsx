@@ -79,7 +79,7 @@ const Login = () => {
             >
               {isLoading ? "Logging In" : "Log in"}
             </Button>
-            <span>Dont have account? </span>
+            <span>Don&apos;t have account? </span>
             <Link to="register">Register Now</Link>
           </form>
         </Paper>
