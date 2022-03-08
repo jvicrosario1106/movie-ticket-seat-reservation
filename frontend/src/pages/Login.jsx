@@ -5,9 +5,11 @@ import { Paper, TextField, Typography, Box, Grid, Button } from "@mui/material";
 import Snackbars from "../utilities/Snackbars";
 import LoginBackground from "../images/loginbackground.jpg";
 import LoginBackgroundTwo from "../images/login.png";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user, isSuccess, isFailed, isLoading } = useSelector(
     (state) => state.authReducer
@@ -78,7 +80,7 @@ const Login = () => {
               {isLoading ? "Logging In" : "Log in"}
             </Button>
             <span>Dont have account? </span>
-            <a href="/register">Register Now</a>
+            <Link to="register">Register Now</Link>
           </form>
         </Paper>
       </Box>

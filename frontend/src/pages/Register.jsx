@@ -5,6 +5,7 @@ import { Paper, TextField, Typography, Box, Button } from "@mui/material";
 import Snackbars from "../utilities/Snackbars";
 import RegisterBackground from "../images/registerbackground.jpg";
 import RegisterBackgroundTwo from "../images/register.png";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -146,7 +147,7 @@ const Register = () => {
               {isLoading ? "Registering account" : "Register Now"}
             </Button>
             <span>Go Back to? </span>
-            <a href="/">Log in</a>
+            <Link to="/">Log In</Link>
           </form>
         </Paper>
       </Box>
