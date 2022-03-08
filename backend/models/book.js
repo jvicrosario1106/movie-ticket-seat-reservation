@@ -25,7 +25,9 @@ const bookSchema = Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Movie",
     },
-    time: [String],
+    time: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -10,6 +10,9 @@ import moment from "moment";
 const Movies = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const users = JSON.parse(localStorage.getItem("user"));
+
   const { movies, isLoading, isSuccess, isFailed } = useSelector(
     (state) => state.movieReducer
   );
@@ -23,6 +26,7 @@ const Movies = (props) => {
     end: "",
     image: "",
     url: "",
+    time: "",
   });
 
   const movieOnChange = (e) => {
@@ -61,12 +65,15 @@ const Movies = (props) => {
       {/* Snackbar message */}
       <Snackbars />
 
-      <AddMovie
-        movieOnChange={movieOnChange}
-        setMovie={setMovie}
-        movie={movie}
-        onSubmit={onSubmit}
-      />
+      {users.type === "admin" && (
+        <AddMovie
+          movieOnChange={movieOnChange}
+          setMovie={setMovie}
+          movie={movie}
+          onSubmit={onSubmit}
+        />
+      )}
+
       {movies.length > 0 ? (
         <Grid container sx={{ mt: 5 }} spacing={1}>
           {movies.map((movie) => (

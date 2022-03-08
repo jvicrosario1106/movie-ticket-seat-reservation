@@ -2,6 +2,7 @@ const express = require("express");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 const Book = require("../models/book");
+const protectedRoute = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
   try {
@@ -10,6 +11,22 @@ router.get("/", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       message: "Unable to get all bookings",
+    });
+  }
+});
+
+router.get("/userbook", protectedRoute, async (req, res) => {
+  const id = req.user._id;
+
+  try {
+    const book = await Book.find({ user: id })
+      .sort({ createdAt: -1 })
+      .populate("user theater seats movie")
+      .exec();
+    res.status(200).json(book);
+  } catch (err) {
+    res.status(400).json({
+      message: "Unable to get the book",
     });
   }
 });
@@ -42,13 +59,26 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", protectedRoute, async (req, res) => {
+  const id = req.user._id;
+
+  const { theater, seats, quantity, date, time, movie } = req.body;
+
+  const data = {
+    user: id,
+    theater,
+    seats,
+    quantity,
+    date,
+    time,
+    movie,
+  };
+
   try {
-    const book = await Book.create(req.body);
+    const book = await Book.create(data);
+    const getBook = await Book.findById(book._id);
     if (book) {
-      res.status(200).json({
-        message: "You've created new book",
-      });
+      res.status(200).json(getBook);
     } else {
       res.status(400).json({
         message: "Unable to create new book",

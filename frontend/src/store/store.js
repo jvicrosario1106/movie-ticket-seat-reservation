@@ -6,6 +6,7 @@ import userReducer from "../slice/userSlice";
 import theaterReducer from "../slice/theaterSlice";
 import groupReducer from "../slice/groupSlice";
 import seatReducer from "../slice/seatSlice";
+import bookReducer from "../slice/bookSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     theaterReducer,
     groupReducer,
     seatReducer,
+    bookReducer,
   },
 });

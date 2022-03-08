@@ -18,6 +18,7 @@ import {
   FcClapperboard,
   FcUnlock,
   FcConferenceCall,
+  FcHome,
 } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -65,9 +66,9 @@ const Layout = ({ children }) => {
 
   const customerlists = [
     {
-      name: "Coming Soon",
+      name: "Home",
       path: "/",
-      icon: <FcConferenceCall size={30} />,
+      icon: <FcHome size={30} />,
     },
     {
       name: "Movies",
