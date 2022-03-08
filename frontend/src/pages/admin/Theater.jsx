@@ -216,14 +216,14 @@ const Theater = () => {
       headerName: "Group ",
       width: 150,
       valueGetter: (params) =>
-        params.row.groups.name === null ? "s" : params.row.groups.name,
+        params.row.groups === null ? "" : params.row.groups.name,
     },
     {
       field: "theater",
       headerName: "Theater ",
       width: 150,
       valueGetter: (params) =>
-        params.row.theater.name === null ? "s" : params.row.theater.name,
+        params.row.theater === null ? "" : params.row.theater.name,
     },
     {
       field: "createdAt",
@@ -374,6 +374,7 @@ const Theater = () => {
             theater={theater}
             setTheater={setTheater}
             submitTheater={submitTheater}
+            isLoading={isLoading}
           />
           <div
             style={{

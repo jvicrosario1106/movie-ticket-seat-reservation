@@ -18,7 +18,7 @@ const style = {
   p: 4,
 };
 
-const AddTheater = ({ theater, setTheater, submitTheater }) => {
+const AddTheater = ({ theater, setTheater, submitTheater, isLoading }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -58,11 +58,12 @@ const AddTheater = ({ theater, setTheater, submitTheater }) => {
                 }
               />
               <Button
+                disabled={isLoading ? true : false}
                 type="submit"
                 variant="contained"
                 style={{ float: "right" }}
               >
-                Create
+                {isLoading ? "Creating" : "Create"}
               </Button>
             </form>
           </Box>

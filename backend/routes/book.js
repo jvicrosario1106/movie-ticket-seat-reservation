@@ -2,6 +2,7 @@ const express = require("express");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 const Book = require("../models/book");
+const Seat = require("../models/seats");
 const protectedRoute = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
@@ -75,14 +76,21 @@ router.post("/", protectedRoute, async (req, res) => {
   };
 
   try {
-    const book = await Book.create(data);
-    const getBook = await Book.findById(book._id);
-    if (book) {
-      res.status(200).json(getBook);
-    } else {
-      res.status(400).json({
-        message: "Unable to create new book",
-      });
+    const updateSeats = await Seat.updateOne(
+      { _id: seats },
+      { $inc: { seats: -quantity } }
+    );
+
+    if (updateSeats) {
+      const book = await Book.create(data);
+      const getBook = await Book.findById(book._id);
+      if (book) {
+        res.status(200).json(getBook);
+      } else {
+        res.status(400).json({
+          message: "Unable to create new book",
+        });
+      }
     }
   } catch (err) {
     res.status(400).json({

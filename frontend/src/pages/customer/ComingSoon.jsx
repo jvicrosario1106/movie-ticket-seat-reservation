@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { getMovies } from "../../slice/movieSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomePage from "../../images/homepage.jpg";
 import Advance from "../../images/advance.svg";
@@ -24,6 +24,7 @@ const ComingSoon = () => {
         style={{
           backgroundImage: `linear-gradient( rgba(0, 0, 0,0.6) 100%, rgba(0, 0, 0,0.6)100%),url(${HomePage})`,
           backgroundSize: "cover",
+          backgroundPosition: "center",
           height: "60vh",
           alignItems: "center",
           display: "flex",

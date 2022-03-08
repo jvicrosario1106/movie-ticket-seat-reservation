@@ -111,7 +111,7 @@ const theaterReducer = createSlice({
         state.isLoading = false;
         state.isFailed = false;
         state.isSuccess = true;
-        state.isDeleted = true;
+        state.isDeleted = false;
         state.isCreated = false;
         state.theaters = state.theaters.filter(
           (theater) => theater._id !== action.payload

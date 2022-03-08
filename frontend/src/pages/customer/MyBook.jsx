@@ -123,20 +123,23 @@ const User = () => {
       field: "movie",
       headerName: "Movie",
       width: 150,
-      valueGetter: (params) => params.row.movie.title,
+      valueGetter: (params) =>
+        params.row.movie === null ? "" : params.row.movie.title,
     },
     {
       field: "seats",
       headerName: "Seat",
       width: 150,
-      valueGetter: (params) => params.row.seats.name,
+      valueGetter: (params) =>
+        params.row.seats === null ? "" : params.row.seats.name,
     },
 
     {
       field: "theater",
       headerName: "Theater",
       width: 160,
-      valueGetter: (params) => params.row.theater.name,
+      valueGetter: (params) =>
+        params.row.theater === null ? "" : params.row.theater.name,
     },
 
     {
@@ -208,7 +211,7 @@ const User = () => {
 
       {isDeleted && (
         <Snackbars
-          message={"Successfully Deleted"}
+          message={"Successfully Cancelled"}
           open={true}
           type={"success"}
         />
