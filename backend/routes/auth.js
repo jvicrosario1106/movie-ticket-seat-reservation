@@ -54,8 +54,7 @@ router.post("/login", async (req, res) => {
     res
       .status(200)
       .cookie("jwt_token", token, {
-        httpOnly: true,
-        sameSite: "none",
+        httpOnly: false,
       })
       .json({
         email: checkEmail.email,

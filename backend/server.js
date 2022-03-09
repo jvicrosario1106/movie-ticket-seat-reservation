@@ -12,29 +12,26 @@ const whitelist = [
   "https://cinephile-rho.vercel.app/",
 ];
 require("dotenv").config();
+app.use(cookieParser());
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (whitelist.includes(origin)) return callback(null, true);
+//       callback(new Error("Not allowed by CORS"));
+//     },
+//     credentials: true,
+//   })
+// );
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
-  );
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://cinephile-rho.vercel.app");
   res.header(
     "Access-Control-Allow-Headers",
-    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
+  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (whitelist.includes(origin)) return callback(null, true);
-      callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
 
 app.use(
   bodyparser.urlencoded({
