@@ -6,9 +6,26 @@ const bodyparser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const whitelist = ["http://localhost:3000", "https://cinephile-rho.vercel.app"];
+const whitelist = [
+  "http://localhost:3000",
+  "https://cinephile-rho.vercel.app",
+  "https://cinephile-rho.vercel.app/",
+];
 require("dotenv").config();
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
+  next();
+});
+app.use(cookieParser());
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -18,7 +35,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser());
+
 app.use(
   bodyparser.urlencoded({
     extended: true,
