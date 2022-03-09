@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const whitelist = ["http://localhost:3000", "https://cinephile-rho.vercel.app"];
 require("dotenv").config();
 
