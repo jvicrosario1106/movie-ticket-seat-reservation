@@ -14,9 +14,14 @@ const whitelist = [
 
 require("dotenv").config();
 app.use(cookieParser());
+
 app.use(
   cors({
-    origin: "https://cinephile-rho.vercel.app",
+    // origin: (origin, callback) => {
+    //   if (whitelist.includes(origin)) return callback(null, true);
+    //   callback(new Error("Not allowed by CORS"));
+    // },
+    origin: ["https://cinephile-rho.vercel.app"],
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
     credentials: true,
   })

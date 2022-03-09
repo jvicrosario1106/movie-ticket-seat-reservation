@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
       .cookie("jwt_token", token, {
         httpOnly: true,
         secure: true,
-        domain: "https://cinephile-rho.vercel.app/",
+        sameSite: "none",
       })
       .json({
         email: checkEmail.email,
