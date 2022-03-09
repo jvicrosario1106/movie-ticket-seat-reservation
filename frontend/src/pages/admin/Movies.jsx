@@ -95,7 +95,7 @@ const Movies = (props) => {
             >
               <img
                 src={movie.image}
-                onClick={() => navigate(`movies/${movie._id}`)}
+                onClick={() => navigate(`/movies/${movie._id}`)}
                 width="100%"
                 style={{ borderRadius: "6px" }}
               />
