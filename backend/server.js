@@ -22,7 +22,6 @@ app.use(
     //   callback(new Error("Not allowed by CORS"));
     // },
     origin: ["https://cinephile-rho.vercel.app"],
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
     credentials: true,
   })
 );

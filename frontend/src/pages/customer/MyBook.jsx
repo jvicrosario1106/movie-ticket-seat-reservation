@@ -79,7 +79,6 @@ const User = () => {
 
     const data = { ...bookData, movie };
     dispatch(updateBook(data));
-    console.log(data);
   };
 
   const deleteBookSubmit = (id) => {
