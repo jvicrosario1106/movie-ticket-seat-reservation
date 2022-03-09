@@ -11,6 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { FiEdit } from "react-icons/fi";
 import { TextField } from "@mui/material";
+import moment from "moment";
 
 const style = {
   position: "absolute",
@@ -37,6 +38,7 @@ const AddTheater = ({
   id,
   submitUpdatedData,
   isLoading,
+  date,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -77,6 +79,12 @@ const AddTheater = ({
                   Movies
                 </InputLabel>
                 <Select
+                  disabled={
+                    moment(Date.now()).format("YYYY-MM-DD") >
+                    moment(date).format("YYYY-MM-DD")
+                      ? true
+                      : false
+                  }
                   name="movie"
                   size="small"
                   labelId="demo-simple-select-required-label"

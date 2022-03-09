@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovie, updateMovie, deleteMovie } from "../slice/movieSlice";
+import { getRating, createOrUpdateRating } from "../slice/ratingSlice";
 import { useNavigate } from "react-router-dom";
 import {
   Rating,
@@ -23,14 +24,20 @@ const MovieDetails = () => {
   const { movies, isLoading, isSuccess } = useSelector(
     (state) => state.movieReducer
   );
-  const [rating, setRating] = useState(0);
+
+  const { rating: ratings } = useSelector((state) => state.ratingReducer);
+
+  const [rating, setRating] = useState();
+
   const [ratingResponse, setRatingResponse] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const [movie, setMovie] = useState({});
 
   useEffect(() => {
     dispatch(getMovie(id));
-  }, [dispatch]);
+    dispatch(getRating(id));
+    setRating(ratings ? ratings : 0);
+  }, [dispatch, ratings]);
 
   //Get Movie with the ID for Edit
   const setMovieUpdate = () => {
@@ -69,6 +76,7 @@ const MovieDetails = () => {
 
   //Changing Ratings
   const changeRating = (newValue) => {
+    dispatch(createOrUpdateRating({ rating: newValue, movie: id }));
     setRating(newValue);
     setRatingResponse(true);
   };

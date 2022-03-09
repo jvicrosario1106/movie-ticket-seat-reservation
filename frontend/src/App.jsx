@@ -12,7 +12,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import BookNow from "./pages/customer/BookNow";
 import MyBook from "./pages/customer/MyBook";
-import ComingSoon from "./pages/customer/ComingSoon";
 
 function App() {
   const { isSuccess } = useSelector((state) => state.authReducer);

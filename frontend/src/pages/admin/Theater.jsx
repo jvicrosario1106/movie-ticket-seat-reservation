@@ -90,10 +90,11 @@ const Theater = () => {
     setSeat({
       _id: seatValue._id,
       name: seatValue.name,
-      theater: seatValue.theater._id,
-      groups: seatValue.groups._id,
+      theater: seatValue.theater === null ? "" : seatValue.theater._id,
+      groups: seatValue.groups === null ? "" : seatValue.groups._id,
       seats: seatValue.seats,
     });
+    console.log(seatValue);
   };
 
   const onChangeSeats = (e) => {

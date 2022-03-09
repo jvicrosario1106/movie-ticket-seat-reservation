@@ -66,17 +66,17 @@ const Movies = (props) => {
       {/* Snackbar message */}
       <Snackbars />
 
-      {users.type === "admin" ? (
+      <Typography variant="h3" fontWeight={"bold"}>
+        List of Movies
+      </Typography>
+
+      {users.type === "admin" && (
         <AddMovie
           movieOnChange={movieOnChange}
           setMovie={setMovie}
           movie={movie}
           onSubmit={onSubmit}
         />
-      ) : (
-        <Typography variant="h3" fontWeight={"bold"}>
-          List of Movies
-        </Typography>
       )}
 
       {movies.length > 0 ? (

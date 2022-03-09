@@ -82,6 +82,8 @@ const movieReducer = createSlice({
     builder
       .addCase(getMovies.pending, (state, action) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isFailed = false;
       })
       .addCase(getMovies.fulfilled, (state, action) => {
         state.movies = action.payload;
@@ -107,6 +109,8 @@ const movieReducer = createSlice({
       })
       .addCase(getMovie.pending, (state, action) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isFailed = false;
       })
       .addCase(getMovie.fulfilled, (state, action) => {
         state.isLoading = false;

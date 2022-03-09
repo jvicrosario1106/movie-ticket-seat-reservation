@@ -62,11 +62,11 @@ const User = () => {
       setDates(dateArray);
     }
 
-    setMovie(getBook.movie._id);
+    setMovie(getBook.movie === null ? "" : getBook.movie._id);
     setBookData({
       _id: id,
-      theater: getBook.theater._id,
-      seats: getBook.seats._id,
+      theater: getBook.theater === null ? "" : getBook.theater._id,
+      seats: getBook.seats === null ? "" : getBook.seats._id,
       quantity: getBook.quantity,
       date: moment(getBook.date).format("YYYY-MM-DD"),
       time: getBook.time,
@@ -184,16 +184,23 @@ const User = () => {
           id={params.id}
           submitUpdatedData={submitUpdatedData}
           isLoading={isLoading}
+          date={params.row.date}
         />,
 
         <Button
-          disabled={isLoading ? true : false}
+          disabled={
+            isLoading ||
+            moment(Date.now()).format("YYYY-MM-DD") >
+              moment(params.row.date).format("YYYY-MM-DD")
+              ? true
+              : false
+          }
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"
           onClick={() => deleteBookSubmit(params.id)}
         >
-          {isLoading ? "Canceling" : "Cancel"}
+          {isLoading ? "Canceled" : "Cancel"}
         </Button>,
       ],
     },

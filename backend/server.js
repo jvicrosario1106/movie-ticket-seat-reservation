@@ -6,7 +6,7 @@ const bodyparser = require("body-parser");
 
 const app = express();
 const PORT = 8080;
-const whitelist = ["http://localhost:3000"];
+const whitelist = ["http://localhost:3000", "https://cinephile-rho.vercel.app"];
 require("dotenv").config();
 
 app.use(
@@ -48,3 +48,4 @@ app.use("/api/theaters", require("./routes/theater"));
 app.use("/api/groups", require("./routes/group"));
 app.use("/api/books", require("./routes/book"));
 app.use("/api/users", require("./routes/users"));
+app.use("/api/ratings", require("./routes/rating"));

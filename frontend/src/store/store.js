@@ -7,6 +7,7 @@ import theaterReducer from "../slice/theaterSlice";
 import groupReducer from "../slice/groupSlice";
 import seatReducer from "../slice/seatSlice";
 import bookReducer from "../slice/bookSlice";
+import ratingReducer from "../slice/ratingSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     groupReducer,
     seatReducer,
     bookReducer,
+    ratingReducer,
   },
 });

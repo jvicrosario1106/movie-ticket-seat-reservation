@@ -127,7 +127,7 @@ const AddMovie = ({ movieOnChange, setMovie, movie, onSubmit }) => {
 
               <Typography variant="body2">Upload Movie Poster</Typography>
               <FileBase64
-                multilple={false}
+                multiple={false}
                 onDone={({ base64 }) => setMovie({ ...movie, image: base64 })}
               />
 

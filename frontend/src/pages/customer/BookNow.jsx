@@ -246,7 +246,7 @@ const BookNow = () => {
 
         <Grid item lg={6}>
           {/* <Paper sx={{ width: "100%" }}> */}
-          <ImageList sx={{ width: 500, height: 500 }} cols={3} rowHeight={164}>
+          <ImageList sx={{ width: 500, height: 500 }} cols={3} rowHeight={300}>
             {movies.length > 0 &&
               movies.map((movie) => (
                 <ImageListItem key={movie._id}>

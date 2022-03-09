@@ -20,7 +20,7 @@ import {
   FcConferenceCall,
   FcHome,
 } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../slice/authSlice";
 
@@ -29,6 +29,8 @@ const Layout = ({ children }) => {
   const drawerWidth = 240;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   const logoutUserSubmit = () => {
@@ -118,6 +120,11 @@ const Layout = ({ children }) => {
                 <List>
                   {lists.map((list) => (
                     <ListItem
+                      style={
+                        location.pathname === list.path
+                          ? { background: "#eb4d4b", color: "white" }
+                          : null
+                      }
                       button
                       key={list.name}
                       onClick={() => navigate(list.path)}
@@ -136,6 +143,11 @@ const Layout = ({ children }) => {
                 <List>
                   {customerlists.map((customerlist) => (
                     <ListItem
+                      style={
+                        location.pathname === customerlist.path
+                          ? { background: "#eb4d4b", color: "white" }
+                          : null
+                      }
                       button
                       key={customerlist.name}
                       onClick={() => navigate(customerlist.path)}

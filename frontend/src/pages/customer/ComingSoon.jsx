@@ -12,7 +12,13 @@ const ComingSoon = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const comingSoon = useSelector((state) => state.movieReducer.movies);
+  const comingSoon = useSelector(
+    (state) =>
+      state.movieReducer.movies.length > 0 &&
+      state.movieReducer.movies
+        .filter((movie) => movie.status === "Coming Soon")
+        .slice(0, 8)
+  );
 
   useEffect(() => {
     dispatch(getMovies());
@@ -43,19 +49,22 @@ const ComingSoon = () => {
             opacity: 0.6,
           }}
         >
-          Home of the great movies of our time
+          Home of the great movies in our time
         </Typography>
-        <Button sx={{ mt: 5 }} variant="contained">
-          About Us
-        </Button>
+        <a href="#image" style={{ textDecoration: "none" }}>
+          <Button sx={{ mt: 5 }} variant="contained">
+            About Us
+          </Button>
+        </a>
       </div>
 
       <div>
         <Typography
-          mt={3}
+          mt={6}
           sx={{ opacity: 0.6 }}
           variant="h4"
           fontWeight={"bold"}
+          textAlign="center"
         >
           Coming Soon
         </Typography>
@@ -87,13 +96,15 @@ const ComingSoon = () => {
         )}
       </div>
 
-      <div>
-        <Typography
-          mt={10}
-          sx={{ opacity: 0.6 }}
-          variant="h4"
-          fontWeight={"bold"}
-        >
+      <Paper
+        style={{
+          background: "white",
+          borderRadius: 10,
+          padding: 50,
+          marginTop: 60,
+        }}
+      >
+        <Typography sx={{ opacity: 0.6 }} variant="h4" fontWeight={"bold"}>
           What is Cinephile?
         </Typography>
         <Typography textAlign={"justify"} mt={3}>
@@ -109,7 +120,7 @@ const ComingSoon = () => {
 
         <Typography
           textAlign="center"
-          mt={9}
+          mt={3}
           mb={9}
           variant="h5"
           fontWeight={"bold"}
@@ -124,37 +135,33 @@ const ComingSoon = () => {
           sx={{ textAlign: "center" }}
         >
           <Grid item lg={4}>
-            <img src={`${Advance}`} width="50%" />
+            <img id="image" src={`${Advance}`} width="50%" />
             <Typography fontWeight={"bold"}>Tech Stack</Typography>
-            <Typography mt={1}>
-              This Application used a popular Teck stack consist of Programming
-              languages, frameworks and tools to build softwares. React.js is
-              used for frontend, Node.js of Backend, MongoDB for Database and
-              Vite for running the development fast and smoothly
+
+            <Typography variant="body2" mt={1}>
+              This Application used a popular Teck stack consist of In demand
+              Programming languages, frameworks and tools to build softwares.
             </Typography>
           </Grid>
           <Grid item lg={4}>
             <img src={`${Cloud}`} width="50%" />
             <Typography fontWeight={"bold"}>Cloud Hosting</Typography>
-            <Typography mt={1}>
-              This Application used a popular Teck stack consist of Programming
-              languages, frameworks and tools to build softwares. React.js is
-              used for frontend, Node.js of Backend, MongoDB for Database and
-              Vite for running the development fast and smoothly
+            <Typography variant="body2" mt={1}>
+              Hosted in Heroku and Vercel. It has a cloud database named MongoDB
+              for the security and safety of data inside the application
             </Typography>
           </Grid>
           <Grid item lg={4}>
             <img src={`${Speed}`} width="50%" />
             <Typography fontWeight={"bold"}>Performance</Typography>
-            <Typography mt={1}>
-              This Application used a popular Teck stack consist of Programming
-              languages, frameworks and tools to build softwares. React.js is
-              used for frontend, Node.js of Backend, MongoDB for Database and
-              Vite for running the development fast and smoothly
+            <Typography variant="body2" mt={1}>
+              Because of Vite, Reactjs and Express, navigating into multiples
+              pages is faster because it aims to provide a smooth development
+              experience
             </Typography>
           </Grid>
         </Grid>
-      </div>
+      </Paper>
     </div>
   );
 };
