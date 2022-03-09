@@ -30,7 +30,7 @@ function App() {
             <Route path="/users" element={<User />} />
             <Route path="/movies">
               <Route index={true} element={<Movies />} />
-              <Route path=":id" element={<MovieDetails />} />
+              <Route path="/:id" element={<MovieDetails />} />
             </Route>
 
             <Route path="/booknow" element={<BookNow />} />
