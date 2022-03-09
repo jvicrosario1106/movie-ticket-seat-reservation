@@ -93,12 +93,13 @@ const Movies = (props) => {
                 },
               }}
             >
-              <img
-                src={movie.image}
-                onClick={() => navigate(`/movies/${movie._id}`)}
-                width="100%"
-                style={{ borderRadius: "6px" }}
-              />
+              <Link to={`/movies/${movie._id}`}>
+                <img
+                  src={movie.image}
+                  width="100%"
+                  style={{ borderRadius: "6px" }}
+                />
+              </Link>
               <Typography align="center">{movie.title}</Typography>
             </Grid>
           ))}
