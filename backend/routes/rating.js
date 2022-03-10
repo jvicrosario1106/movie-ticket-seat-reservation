@@ -32,7 +32,7 @@ router.post("/", protectedRoute, async (req, res) => {
   // Update Old data
   const oldData = { _id: existMovie._id, user, rating, movie };
 
-  if (existMovie.length > 0 > 0) {
+  if (existMovie.length > 0) {
     const update = await Rating.findByIdAndUpdate(existMovie[0]._id, oldData, {
       new: true,
     });

@@ -60,6 +60,19 @@ export const deleteBook = createAsyncThunk(
   }
 );
 
+export const allBooks = createAsyncThunk(
+  "book/allBooks",
+  async (books, thunkAPI) => {
+    try {
+      const reponse = await API_URL.get("/api/books");
+      return reponse.data;
+    } catch (err) {
+      const { message } = err.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   isUpdated: null,
   isCreated: null,
@@ -172,6 +185,32 @@ const bookReducer = createSlice({
         state.books = state.books.filter((book) => book._id !== action.payload);
       })
       .addCase(deleteBook.rejected, (state, action) => {
+        state.isUpdated = false;
+        state.isCreated = false;
+        state.isDeleted = false;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.isFailed = true;
+      })
+
+      .addCase(allBooks.pending, (state, action) => {
+        state.isUpdated = false;
+        state.isCreated = false;
+        state.isDeleted = false;
+        state.isSuccess = false;
+        state.isLoading = true;
+        state.isFailed = false;
+      })
+      .addCase(allBooks.fulfilled, (state, action) => {
+        state.isUpdated = false;
+        state.isCreated = false;
+        state.isDeleted = false;
+        state.isSuccess = true;
+        state.isLoading = false;
+        state.isFailed = false;
+        state.books = action.payload;
+      })
+      .addCase(allBooks.rejected, (state, action) => {
         state.isUpdated = false;
         state.isCreated = false;
         state.isDeleted = false;

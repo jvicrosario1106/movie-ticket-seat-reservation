@@ -87,7 +87,7 @@ const BookNow = () => {
     dispatch(getTheaters());
     dispatch(getSeats());
     dispatch(getMovies());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

@@ -21,7 +21,7 @@ app.use(
     //   if (whitelist.includes(origin)) return callback(null, true);
     //   callback(new Error("Not allowed by CORS"));
     // },
-    origin: ["https://cinephile-rho.vercel.app"],
+    origin: ["https://cinephile-rho.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
