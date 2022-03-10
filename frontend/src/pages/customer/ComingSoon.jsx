@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { getMovies } from "../../slice/movieSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Grid, Typography, Paper } from "@mui/material";
+import { Button, Grid, Typography, Paper, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomePage from "../../images/homepage.jpg";
 import Advance from "../../images/advance.svg";
 import Cloud from "../../images/cloud.svg";
 import Speed from "../../images/speed.svg";
+import { motion } from "framer-motion";
 
 const ComingSoon = () => {
   const dispatch = useDispatch();
@@ -39,23 +40,43 @@ const ComingSoon = () => {
           borderRadius: 10,
         }}
       >
-        <Typography variant="h2" fontWeight={"bold"} color="white">
-          Welcome to Cinephile!
-        </Typography>
-        <Typography
-          variant="body1"
-          color="white"
-          sx={{
-            opacity: 0.6,
-          }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
         >
-          Home of the great movies in our time
-        </Typography>
-        <a href="#image" style={{ textDecoration: "none" }}>
-          <Button sx={{ mt: 5 }} variant="contained">
-            About Us
-          </Button>
-        </a>
+          <Typography variant="h2" fontWeight={"bold"} color="white">
+            Welcome to Cinephile!
+          </Typography>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2 }}
+        >
+          <Typography
+            variant="body1"
+            color="white"
+            sx={{
+              opacity: 0.6,
+            }}
+          >
+            Home of the great movies in our time
+          </Typography>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 4 }}
+        >
+          <a href="#image" style={{ textDecoration: "none" }}>
+            <Button sx={{ mt: 5 }} variant="contained">
+              About Us
+            </Button>
+          </a>
+        </motion.div>
       </div>
 
       <div>
@@ -83,6 +104,17 @@ const ComingSoon = () => {
                   },
                 }}
               >
+                <Chip
+                  label={`${movie.status}`}
+                  color={
+                    movie.status == "Showing"
+                      ? "success"
+                      : movie.status == "Coming Soon"
+                      ? "warning"
+                      : "error"
+                  }
+                  sx={{ mb: 1 }}
+                />
                 <img
                   src={movie.image}
                   onClick={() => navigate(`/movies/${movie._id}`)}
@@ -108,14 +140,13 @@ const ComingSoon = () => {
           What is Cinephile?
         </Typography>
         <Typography textAlign={"justify"} mt={3}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Necessitatibus facilis officia voluptate impedit? Perspiciatis,
-          dolorum. Harum repellat a deleniti beatae facilis non veritatis,
-          eligendi quisquam fuga animi reiciendis cupiditate libero. Nostrum
-          iusto omnis nam cumque excepturi, possimus ab sapiente, rem nulla
-          voluptate sunt voluptates! Impedit cupiditate unde cumque qui.
-          Voluptas accusantium laudantium libero commodi repudiandae! Blanditiis
-          quaerat laborum quos ut!
+          Cinephile, helps the movie goers ease the hassle of buying and
+          reserving movie seats. This system provides convenience and efficiency
+          through user-friendly interface. Instead of standing in a long queue
+          for too long, they will just do the tap and go way. This system is not
+          just for movie-goers as this also helps the movie house to manage the
+          information of all the reservations with the details of the one who
+          reserved.
         </Typography>
 
         <Typography
@@ -155,8 +186,8 @@ const ComingSoon = () => {
             <img src={`${Speed}`} width="50%" />
             <Typography fontWeight={"bold"}>Performance</Typography>
             <Typography variant="body2" mt={1}>
-              Because of Vite, Reactjs and Express, navigating into multiples
-              pages is faster because it aims to provide a smooth development
+              Navigating into web pages is faster because of Vite, Reactjs and
+              Express frameworks, it aims to provide a smooth end-user
               experience
             </Typography>
           </Grid>

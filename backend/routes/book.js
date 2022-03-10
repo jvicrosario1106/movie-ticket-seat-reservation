@@ -7,7 +7,11 @@ const protectedRoute = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
   try {
-    const books = await Book.find().populate("user theater seats movie").exec();
+    const books = await Book.find()
+      .sort({ createdAt: -1 })
+      .populate("user theater seats movie")
+      .lean()
+      .exec();
     res.status(200).json(books);
   } catch (err) {
     res.status(400).json({
@@ -23,6 +27,7 @@ router.get("/userbook", protectedRoute, async (req, res) => {
     const book = await Book.find({ user: id })
       .sort({ createdAt: -1 })
       .populate("user theater seats movie")
+      .lean()
       .exec();
     res.status(200).json(book);
   } catch (err) {

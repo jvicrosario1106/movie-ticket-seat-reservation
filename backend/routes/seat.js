@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
     const seats = await Seat.find()
       .populate("theater groups")
       .sort({ createdAt: -1 })
+      .lean()
       .exec();
     res.status(200).json(seats);
   } catch (error) {

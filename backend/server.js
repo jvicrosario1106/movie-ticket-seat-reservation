@@ -56,3 +56,4 @@ app.use("/api/groups", require("./routes/group"));
 app.use("/api/books", require("./routes/book"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/ratings", require("./routes/rating"));
+app.use("/api/reports", require("./routes/reports"));

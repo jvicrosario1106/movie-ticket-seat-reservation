@@ -5,7 +5,7 @@ const User = require("../models/user");
 
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 });
+    const users = await User.find().sort({ createdAt: -1 }).lean();
     res.status(200).json(users);
   } catch (err) {
     res.status(400).json({

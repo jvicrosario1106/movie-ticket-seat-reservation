@@ -1,15 +1,14 @@
 import React from "react";
-import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
-Chart.register(ArcElement, Tooltip, Legend);
 
-const Doughnuts = ({ showing, coming, ended }) => {
+import { Pie } from "react-chartjs-2";
+
+const PieChart = () => {
   const data = {
-    labels: ["Showing", "Coming Soon", "Ended"],
+    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
     datasets: [
       {
         label: "# of Votes",
-        data: [showing, coming, ended],
+        data: [12, 19, 3, 5, 2, 3],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -26,14 +25,15 @@ const Doughnuts = ({ showing, coming, ended }) => {
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
         ],
+        borderWidth: 1,
       },
     ],
   };
   return (
     <div>
-      <Doughnut data={data} title="Movie Status" />
+      <Pie data={data} />;
     </div>
   );
 };
 
-export default Doughnuts;
+export default PieChart;

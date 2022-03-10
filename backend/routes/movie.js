@@ -5,7 +5,7 @@ const Movies = require("../models/movie");
 
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movies.find().sort({ createdAt: -1 });
+    const movies = await Movies.find().sort({ createdAt: -1 }).lean();
     res.status(200).json(movies);
   } catch (error) {
     res.status(400).json({
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
   }
 
   try {
-    const movie = await Movies.findById(id);
+    const movie = await Movies.findById(id).lean();
     if (movie) {
       res.status(200).json(movie);
     } else {

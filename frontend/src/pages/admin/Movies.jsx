@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddMovie from "../../components/admin/AddMovie";
 import { useDispatch, useSelector } from "react-redux";
 import { postMovies, getMovies } from "../../slice/movieSlice";
-import { Grid, CircularProgress, Typography } from "@mui/material";
+import { Grid, CircularProgress, Typography, Chip } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import Snackbars from "../../utilities/Snackbars";
 import moment from "moment";
@@ -93,6 +93,17 @@ const Movies = (props) => {
                 },
               }}
             >
+              <Chip
+                label={`${movie.status}`}
+                color={
+                  movie.status == "Showing"
+                    ? "success"
+                    : movie.status == "Coming Soon"
+                    ? "warning"
+                    : "error"
+                }
+                sx={{ mb: 1 }}
+              />
               <Link to={`/movies/${movie._id}`}>
                 <img
                   src={movie.image}
