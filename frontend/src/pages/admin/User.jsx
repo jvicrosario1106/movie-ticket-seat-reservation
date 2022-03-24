@@ -89,7 +89,7 @@ const User = () => {
     },
     {
       field: "createdAt",
-      headerName: "Email Address",
+      headerName: "Date Created",
       sortable: false,
       width: 160,
       flex: 1,
