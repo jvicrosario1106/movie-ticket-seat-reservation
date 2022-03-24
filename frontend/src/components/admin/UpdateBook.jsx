@@ -79,12 +79,12 @@ const AddTheater = ({
                   Movies
                 </InputLabel>
                 <Select
-                  disabled={
-                    moment(Date.now()).format("YYYY-MM-DD") >
-                    moment(date).format("YYYY-MM-DD")
-                      ? true
-                      : false
-                  }
+                  // disabled={
+                  //   moment(Date.now()).format("YYYY-MM-DD") >
+                  //   moment(date).format("YYYY-MM-DD")
+                  //     ? true
+                  //     : false
+                  // }
                   name="movie"
                   size="small"
                   labelId="demo-simple-select-required-label"

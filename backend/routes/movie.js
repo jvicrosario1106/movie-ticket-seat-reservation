@@ -2,6 +2,8 @@ const express = require("express");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 const Movies = require("../models/movie");
+const Book = require("../models/book");
+const Rating = require("../models/rating");
 
 router.get("/", async (req, res) => {
   try {
@@ -58,7 +60,11 @@ router.delete("/:id", async (req, res) => {
     });
   }
 
-  const movie = await Movies.findByIdAndRemove(id);
+  const [movie, book, rating] = await Promise.all([
+    Movies.findByIdAndRemove(id),
+    Book.deleteMany({ movie: id }),
+    Rating.deleteMany({ movie: id }),
+  ]);
 
   if (movie) {
     res.status(200).json({

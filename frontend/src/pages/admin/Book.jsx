@@ -192,14 +192,13 @@ const Book = () => {
           isLoading={isLoading}
           date={params.row.date}
         />,
+        // isLoading ||
+        //     moment(Date.now()).format("YYYY-MM-DD") >
+        //       moment(params.row.date).format("YYYY-MM-DD")
+        //       ? true
+        //       : false
         <Button
-          disabled={
-            isLoading ||
-            moment(Date.now()).format("YYYY-MM-DD") >
-              moment(params.row.date).format("YYYY-MM-DD")
-              ? true
-              : false
-          }
+          disabled={isLoading && true}
           startIcon={<FiTrash2 />}
           color="error"
           variant="contained"

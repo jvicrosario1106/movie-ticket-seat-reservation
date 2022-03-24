@@ -72,7 +72,6 @@ const ratingReducer = createSlice({
       })
 
       .addCase(createOrUpdateRating.pending, (state, action) => {
-        state.isLoading = true;
         state.isSuccess = false;
         state.isUpdated = false;
         state.isFailed = false;

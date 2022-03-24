@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
         },
         {
           $group: {
-            _id: "$movie",
+            _id: "$movie.title",
             averageRatings: {
               $avg: "$rating",
             },

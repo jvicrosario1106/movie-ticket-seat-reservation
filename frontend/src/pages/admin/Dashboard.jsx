@@ -8,11 +8,13 @@ import ComingSoon from "../customer/ComingSoon";
 import PieChart from "../../charts/PieChart";
 import Doughnuts from "../../charts/Doughnuts";
 import moment from "moment";
+import BarChart from "../../charts/BarChart";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
   const { reports } = useSelector((state) => state.reportReducer);
+  console.log(reports);
 
   const showing = useSelector(
     (state) =>
@@ -79,8 +81,6 @@ const Dashboard = () => {
     dispatch(getReports());
   }, [dispatch]);
 
-  console.log(reports);
-
   return (
     <div>
       {user.type === "customer" ? (
@@ -114,7 +114,7 @@ const Dashboard = () => {
           {reports ? (
             <div>
               <Grid container spacing={2} sx={{ mt: 1.5 }}>
-                <Grid item sm={12} md={7} lg={8}>
+                <Grid item xs={12} sm={12} md={7} lg={8}>
                   <div
                     style={{
                       height: "100%",
@@ -133,7 +133,7 @@ const Dashboard = () => {
                     />
                   </div>
                 </Grid>
-                <Grid item sm={12} md={5} lg={4}>
+                <Grid item xs={12} sm={12} md={5} lg={4}>
                   <Paper style={{ width: "100%", borderRadius: 10 }}>
                     <Typography fontWeight={"bold"}>Movie Status</Typography>
                     <Doughnuts
@@ -143,11 +143,21 @@ const Dashboard = () => {
                     />
                   </Paper>
                 </Grid>
-                {/* <Grid item lg={3}>
+                <Grid item lg={7.8} sx={{ mr: 2 }}>
                   <Paper style={{ width: "100%", padding: 10 }}>
-                    <PieChart />
+                    <BarChart ratings={reports.ratings.slice(0, 5)} />
                   </Paper>
-                </Grid> */}
+                </Grid>
+                <Grid item xs={12} sm={12} md={5} lg={4}>
+                  <Paper style={{ width: "100%", borderRadius: 10 }}>
+                    <Typography fontWeight={"bold"}>Movie Settings</Typography>
+                    <PieChart
+                      books={reports.books}
+                      seats={reports.seats}
+                      theaters={reports.theaters}
+                    />
+                  </Paper>
+                </Grid>
               </Grid>
             </div>
           ) : (
